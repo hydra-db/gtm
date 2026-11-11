@@ -1,0 +1,53 @@
+name: typecheck
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "infra/**"
+      - "outputs/**/*.ts"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read
+
+jobs:
+  # One install, one job: `npm run typecheck` compiles `scripts/`, `infra/` and
+  # the executions in `outputs/`
+  # against the root tsconfig. Generated types (`cargo-ai cdk types`) sharpen
+  # extractor/connector config checking, but they are optional (configs fall
+  # back to loose records without them), so the key only decides whether we
+  # generate them, never whether we typecheck. A repo with no workspace
+  # connected still gets everything compiled on every PR.
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: check CARGO_API_TOKEN
+        id: guard
+        env:
+          CARGO_API_TOKEN: ${{ secrets.CARGO_API_TOKEN }}
+        run: |
+          if [ -z "$CARGO_API_TOKEN" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "CARGO_API_TOKEN secret is not set; typechecking without generated workspace types. Add it in Settings > Secrets for stricter config checking." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+      # Run from the root: `cargo-ai cdk types` writes `.cargo-ai/` next to
+      # package.json, which tsconfig.json includes. postinstall tries this too
+      # and skips when unsigned-in, so this step is the hard fail when the
+      # key is present.
+      - name: generate workspace types
+        if: steps.guard.outputs.enabled == 'true'
+        run: npm run types
+        env:
+          CARGO_API_TOKEN: ${{ secrets.CARGO_API_TOKEN }}
+      - run: npm run typecheck

@@ -1,0 +1,25 @@
+# Prose checks: context frontmatter and references, outputs entries, copy style.
+# One job, one install: `npm run lint` bundles all three. No path filter, because
+# the copy-style check applies to every markdown file in the repo.
+name: lint
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the staleness check sees real commit dates.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
