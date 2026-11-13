@@ -53,7 +53,7 @@ export const ossSignalToCandidate = definePlay("gtm_oss_signal_to_candidate", {
   model: ossSignals,
   workflow: propose,
   schedule: { type: "cron", cron: "47 * * * *" },
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "once",
   changeKinds: ["added"],
 });

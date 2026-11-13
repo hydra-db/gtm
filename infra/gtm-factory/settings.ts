@@ -95,6 +95,6 @@ export const researchSchema = JSON.stringify({
 // Listening. Per keyword and day: how many posts are kept, and how many of the
 // people who posted get a LinkedIn profile lookup (0.25 credits each) to learn
 // their employer. Raise these for coverage, lower them for spend.
-export const maxPostsPerKeyword = 6;
-export const maxProfileLookupsPerKeyword = 3;
+export const maxPostsPerKeyword = 4;
+export const maxProfileLookupsPerKeyword = 2;
 export const xResultsPerKeyword = 30;
