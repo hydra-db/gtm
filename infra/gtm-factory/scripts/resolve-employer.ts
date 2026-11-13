@@ -16,7 +16,10 @@ export const resolveEmployer = defineScript(
     companyLinkedinUrl: string;
   }) => {
     const domain = bare(companyDomain) || bare(companyWebsite);
-    const name = String(company || "").trim();
+    // LinkedIn lists several current employers as "Acme + 3 more": keep the first.
+    const name = String(company || "")
+      .replace(/\s*\+\s*\d+\s+more\s*$/i, "")
+      .trim();
     return {
       company_name: name,
       company_domain: domain,

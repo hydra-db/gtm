@@ -200,8 +200,10 @@ const listen = defineWorkflow(
   },
 );
 
-// Every keyword row, once a day at 13:23 UTC. Deployed disabled; switched on
-// after a hand-run pilot.
+// Every keyword row, once a day at 13:23 UTC. Piloted by hand on 2026-11-13.
+// Daily spend ceiling: one LinkedIn search (0.25) plus up to
+// maxProfileLookupsPerKeyword lookups (0.25 each) per LinkedIn keyword, and
+// 0.02 per X keyword.
 export const socialListeningDaily = definePlay("gtm_social_listening_daily", {
   name: "Social listening: daily keyword search on LinkedIn and X",
   description:
@@ -210,7 +212,7 @@ export const socialListeningDaily = definePlay("gtm_social_listening_daily", {
   model: listeningKeywords,
   workflow: listen,
   schedule: { type: "cron", cron: "23 13 * * *" },
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "always",
   changeKinds: ["added", "updated", "unchanged"],
 });

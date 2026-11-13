@@ -125,10 +125,10 @@ const scoreCandidate = defineWorkflow(
   },
 );
 
-// Scores every candidate that has no verdict yet. Deployed disabled: the first
-// load is run by hand as a batch (pilot, then the rest). Switch it on with
-// isEnabled: true once that is done, and every company a listening job adds is
-// scored within the hour.
+// Scores every candidate that has no verdict yet, every hour. The first load
+// (2026-11-13) was run by hand as batches; from here on, every company a
+// listening job adds is scored within the hour. Each score is one research
+// task (0.25 credits at the "base" processor).
 export const scoreCandidates = definePlay("tam_score_candidates", {
   name: "TAM: score candidate against the ICP",
   description:
@@ -148,7 +148,7 @@ export const scoreCandidates = definePlay("tam_score_candidates", {
     ],
   },
   schedule: { type: "cron", cron: "17 * * * *" },
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "once",
   changeKinds: ["added"],
 });

@@ -66,9 +66,11 @@ export const pickXPosts = defineScript(
         const author = post.author || {};
         const bio = String(author.bio || "");
         const domain = bare(author.website);
-        const employer = bio.match(
-          /(?:\bat|@|founder of|building|ceo of|cto of|co-founder of|cofounder of)\s+@?([A-Za-z0-9][A-Za-z0-9._-]{1,40})/i,
-        );
+        const employer =
+          bio.match(/@([A-Za-z0-9_]{2,30})/) ||
+          bio.match(
+            /(?:\bat|founder of|building|ceo of|cto of|co-founder of|cofounder of)\s+([A-Za-z0-9][A-Za-z0-9._-]{1,40})/i,
+          );
         const company = domain
           ? domain.split(".")[0]
           : employer
