@@ -11,12 +11,12 @@ description: GTM prompt suites
 
 providers:
   - id: openai:gpt-4o
-    label: _template
+    label: outreach-drafter
     config:
       temperature: 0
 
 prompts:
-  - file://_template/prompt.txt
+  - file://outreach-drafter/prompt.txt
 
 tests:
-  - file://_template/cases.yaml
+  - file://outreach-drafter/cases.yaml
