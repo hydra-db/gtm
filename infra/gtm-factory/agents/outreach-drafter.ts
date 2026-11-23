@@ -19,6 +19,7 @@ export const outreachDrafter = defineAgent("outreach_drafter", {
   connector: anthropic,
   languageModel: "claude-sonnet-5",
   temperature: 0.4,
+  withReasoning: false,
   maxSteps: 4,
   systemPrompt: outreachDrafterPrompt,
 });
