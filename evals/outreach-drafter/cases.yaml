@@ -1,0 +1,59 @@
+# Regression cases for the Outreach drafter (infra/gtm-factory/agents/outreach-drafter.ts).
+# prompt.txt must match outreach-drafter-prompt.ts word for word.
+
+# 1. YC founder with a fresh signal: YC copy, signal quoted, repo linked.
+- description: YC founder gets YC copy that opens with the signal
+  vars:
+    record: '{"person":{"name":"Priya Shah","first_name":"Priya","title":"Co-founder and CTO","company":"Ledgerline","is_yc":true,"yc_batch":"W23","yc_company":"Ledgerline"},"company":{"name":"Ledgerline","domain":"ledgerline.ai","what_they_do":"AI agents that reconcile invoices against contracts and ERP records for finance teams","use_case":"Insurance, healthcare billing, procurement"},"signal":{"type":"github_issue","summary":"Opened an issue on getzep/graphiti asking how to model invoice-to-contract relationships over time","url":"https://github.com/getzep/graphiti/issues/1234","date":"2026-11-18","quote":"we need edges that remember which contract version an invoice was matched against"},"route":{"kind":"direct"},"sender_name":"Nishkarsh"}'
+  assert:
+    - type: is-json
+    - type: icontains
+      value: "YC"
+    - type: icontains
+      value: "github.com/hydra-db/hydradb"
+    - type: icontains-any
+      value: ["graphiti", "contract version", "invoice"]
+    - type: not-icontains
+      value: "\u2014"
+
+# 2. Not YC: no YC mention anywhere.
+- description: non-YC person gets no YC mention
+  vars:
+    record: '{"person":{"name":"Marcus Lee","first_name":"Marcus","title":"Head of AI","company":"Claimwise","is_yc":false},"company":{"name":"Claimwise","domain":"claimwise.com","what_they_do":"AI agents that adjudicate insurance claims across carrier systems"},"signal":{"type":"job_post","summary":"Hiring a Staff Engineer for agent memory and knowledge graph","url":"https://jobs.example.com/claimwise/staff-engineer","date":"2026-11-15","quote":"own the knowledge graph that lets our agents remember prior claim decisions"},"route":{"kind":"direct"},"sender_name":"Nishkarsh"}'
+  assert:
+    - type: is-json
+    - type: not-icontains
+      value: "YC"
+    - type: not-icontains
+      value: "Y Combinator"
+    - type: icontains-any
+      value: ["knowledge graph", "claim decisions", "staff engineer"]
+
+# 3. No usable signal: refuse to write generic copy.
+- description: missing signal returns needs_signal
+  vars:
+    record: '{"person":{"name":"Dana Ortiz","first_name":"Dana","title":"VP Engineering","company":"Shipfast","is_yc":false},"company":{"name":"Shipfast","domain":"shipfast.io"},"signal":{},"route":{"kind":"direct"},"sender_name":"Nishkarsh"}'
+  assert:
+    - type: is-json
+    - type: icontains
+      value: "needs_signal"
+
+# 4. YC intro ask: the YC founder is asked to connect us to the right person.
+- description: yc_intro_ask asks the YC founder for a connection
+  vars:
+    record: '{"person":{"name":"Tom Becker","first_name":"Tom","title":"Product Lead","company":"Routewise","is_yc":true,"yc_batch":"S19","yc_company":"Parcelbird (acquired)"},"company":{"name":"Routewise","domain":"routewise.com","what_they_do":"AI agents that plan freight routes across carrier and warehouse systems"},"signal":{"type":"linkedin_post","summary":"Routewise CTO posted about agents forgetting past routing exceptions","url":"https://www.linkedin.com/posts/example","date":"2026-11-19","quote":"our agents keep relearning the same exceptions every week"},"route":{"kind":"yc_intro_ask","target_person_name":"Alicia Gomez","target_title":"CTO"},"sender_name":"Nishkarsh"}'
+  assert:
+    - type: is-json
+    - type: icontains
+      value: "YC"
+    - type: icontains
+      value: "Alicia"
+
+# 5. Length and tone guardrails on the email body.
+- description: email body stays short, with no exclamation marks
+  vars:
+    record: '{"person":{"name":"Sam Ito","first_name":"Sam","title":"CTO","company":"Opsline","is_yc":false},"company":{"name":"Opsline","domain":"opsline.dev","what_they_do":"AI SRE agents that triage incidents across observability tools"},"signal":{"type":"x_post","summary":"Posted that their incident agent needs memory of past postmortems","url":"https://x.com/example/status/1","date":"2026-11-20","quote":"the agent should know we fixed this exact outage in March"},"route":{"kind":"direct"},"sender_name":"Nishkarsh"}'
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const o = JSON.parse(output); return o.email_body.split(/\\s+/).filter(Boolean).length <= 75 && !o.email_body.includes('!');"
