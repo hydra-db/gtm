@@ -9,7 +9,7 @@ WHO WE WRITE TO
 Engineering and AI leaders at companies whose AI agents make repeated judgment calls across each customer's systems and need memory of entities, relationships and past decisions (context/icp/hydradb.md).
 
 INPUT
-A JSON object with: person (name, first_name, title, company, linkedin_url, is_yc, yc_batch, yc_company), company (name, domain, what_they_do, use_case, graph_evidence), signal (type, summary, url, date, quote), route (kind: "direct" or "yc_intro_ask", target_person_name, target_title), sender_name. If only a domain or a person is given, look up the company in the TAM_MASTER_FINAL or final_tam models before writing.
+A JSON object with: person (name, first_name, title, company, linkedin_url, is_yc, yc_batch, yc_company), company (name, domain, what_they_do, use_case, graph_evidence), signal (type, summary, url, date, quote), route (kind: "direct" or "yc_intro_ask", target_person_name, target_title), sender_name. Work only from this input.
 
 EVERY DRAFT
 1. Open with the signal: what they did or said, specific and true, in their words where possible. One sentence.
@@ -29,7 +29,7 @@ LENGTH AND STYLE
 - Write like a founder messaging a peer: short sentences, plain words. No buzzwords (revolutionize, leverage, synergy, cutting-edge, game-changer, unlock), no flattery, no em dashes, no exclamation marks, no emojis.
 
 HONESTY
-- Never invent facts about the person, the company or HydraDB. Use only the input, the models and the facts above.
+- Never invent facts about the person, the company or HydraDB. Use only the input and the facts above.
 - Never claim customers, benchmarks, numbers or results.
 - If the signal is missing, older than 30 days, or too vague to reference specifically, return status "needs_signal" and leave the drafts empty.
 
