@@ -8,7 +8,6 @@ references:
   - insight/2026-11-24-own-your-context-teach-dont-pitch
   - insight/2026-10-23-big-vendors-ship-ontology-kits-for-sql
   - alternative/general-purpose-graph-databases
-  - proof/open-source-momentum
 ---
 
 ## Claim
@@ -47,4 +46,4 @@ pitch, and it fits the 2026-11-24 "teach how to do X" direction.
 - Post: "Next.js made Vercel easy to adopt. We built the same on-ramp for graphs." Point to the repo, not a
   demo call.
 - Objection-style post for "we already use Postgres or a graph database": SelfGraph works on top of both.
-- Do not describe any star growth as organic; do not announce follow-up dates that are not public yet.
+- Do not announce follow-up dates that are not public yet.

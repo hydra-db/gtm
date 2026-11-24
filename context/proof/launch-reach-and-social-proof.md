@@ -5,7 +5,6 @@ confidence: hypothesis
 references:
   - global/linkedin-playbook
   - global/company-timeline
-  - proof/open-source-momentum
   - proof/token-volume
   - client/startup-video-agent
   - insight/2026-11-23-what-works-on-linkedin-and-x

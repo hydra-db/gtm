@@ -3,7 +3,6 @@ title: "We don't want only your structured output, give us the original data"
 description: A customer wanted raw source text back alongside or instead of HydraDB's structured outputs (2026-09-23). The answer kept structure on by default and added an "original context" toggle; per-request choice matters because one product needs facts-only for memory and full text for contracts.
 references:
   - insight/2026-09-24-saas-customers-sit-above-your-access-boundary
-  - objection/data-handling-dpa-and-retention
 ---
 
 ## Objection

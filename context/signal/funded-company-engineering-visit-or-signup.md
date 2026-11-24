@@ -7,7 +7,6 @@ references:
   - icp/tiering-rubric
   - motion/signal-feedback-outreach
   - persona/ai-engineering-leader
-  - client/agency-self-serve-to-production
 ---
 
 _confidence: hypothesis (we think so) | validated (seen twice, independently) |
@@ -38,7 +37,7 @@ high for (1) with a named senior engineer; medium for (2)
 
 ## Why it matters
 
-Pairs budget (fresh round) with intent (an engineer evaluating). A self-serve account that asked for more databases and a staging/prod split was moving to production (2026-11-16, [[client/agency-self-serve-to-production]]).
+Pairs budget (fresh round) with intent (an engineer evaluating). A self-serve account that asked for more databases and a staging/prod split was moving to production (2026-11-16, ).
 
 Merged from staging: gtm/signal/funded-company-engineering-visit-or-signup.
 

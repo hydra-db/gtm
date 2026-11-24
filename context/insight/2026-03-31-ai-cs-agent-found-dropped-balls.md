@@ -28,7 +28,7 @@ is usually on HydraDB's side (unanswered questions), not theirs.
 - Later focus: "Primary metric to observe is: sign ups to creating your first graph."
   Internal: team discussion, 2026-07-24
 
-These accounts were mostly free or trial signups, not paying customers.
+These accounts were mostly early signups, not paying customers.
 
 ## Implication
 

@@ -6,7 +6,6 @@ references:
   - global/positioning
   - global/gtm-channel-map
   - proof/launch-reach-and-social-proof
-  - proof/open-source-momentum
   - insight/2026-11-23-what-works-on-linkedin-and-x
 ---
 
@@ -50,13 +49,17 @@ Three posts a week from Nishkarsh's personal account (Mon, Wed, Fri), posted on 
 ### Calls to action
 
 - Launch CTA: "the cta has to be use us or something" and "we wont be usign this launch to talk about the conference at all" (Internal: founder note, 2026-03-09).
-- Free trial CTA: point to dashboard.hydradb.com or the open-source repo. Do not include promo codes.
+- CTA: point to dashboard.hydradb.com or the open-source repo.
 - Goal metric for all content is sign ups: "Your goal is optimize for sign ups" (Internal: founder note, 2026-07-24).
 
 ### Watch-outs
 
 - Engagement must be real; Nishkarsh flagged a post whose reactions-to-impressions ratio looked off (Internal: founder note, 2026-08-25). Never buy engagement.
-- Do not describe launch reach or star growth as purely organic.
+- Do not describe launch reach as purely organic.
+
+### Topics we do not post about
+
+Set by Nishkarsh on 2026-11-24. Do not draft posts on, or cite numbers for: GitHub star counts (ours or anyone's), pricing and plans, YC Demo Day, or data retention.
 
 ### Evidence from our own posts
 

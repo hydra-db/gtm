@@ -17,10 +17,8 @@ roundup. Competition happens in open source and third-party roundups, not paid a
 
 ## Evidence
 
-- Internal: team discussion, 2026-11-21. Competitor tracker reading: the most-starred memory product had
-  about 69k GitHub stars, another about 32k; none of the three tracked competitors had active Meta ads.
-- Internal: team discussion, 2026-11-23. Tracker reading: other memory products sat at about 25k to 33k
-  GitHub stars, appear in nearly every 2026 "alternatives" and "X vs Y" roundup, and some raised fresh seed
+- Internal: team discussion, 2026-11-21. Competitor tracker reading: none of the three tracked competitors had active Meta ads.
+- Internal: team discussion, 2026-11-23. Tracker reading: other memory products appear in nearly every 2026 "alternatives" and "X vs Y" roundup, and some raised fresh seed
   or Series A rounds in early 2026 (public announcements).
 - Internal: team discussion, 2026-11-19. A team member, on a public post skeptical of graphs: "I want to
   see every investor say 'we don't invest in that area, Hydra is already the default'".
@@ -37,5 +35,5 @@ owned memory).
 
 ## Use in messaging
 
-Post angle: "Agent memory has five products with 25,000+ stars each. None of them is the problem." Never
-name any product; use counts only in aggregate and only after re-verifying.
+Post angle: "Agent memory is a crowded shelf. None of those products is the problem." Never
+name any product.

@@ -31,8 +31,7 @@ competitor.
 
 ## Pricing
 
-Usually "free" in licence terms; the cost is engineering time and schema upkeep. SurrealDB pricing not
-discussed.
+Not tracked.
 
 ## Strengths
 

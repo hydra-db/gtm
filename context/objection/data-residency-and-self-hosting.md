@@ -2,7 +2,6 @@
 title: "\"Our data can't leave our environment\" (residency, self-hosting, compliance certifications)"
 description: "The most common enterprise blocker: residency law, self-hosting, network lockdown, an unsupported cloud, or SOC 2 / HIPAA asks. HydraDB's answer evolved into BYOC, on-prem SLMs in Enterprise, and certifications in progress (not complete)."
 references:
-  - objection/data-handling-dpa-and-retention
   - objection/permissions-and-isolation
   - insight/2026-11-10-small-buyers-run-enterprise-security-reviews
   - insight/2026-09-24-saas-customers-sit-above-your-access-boundary
@@ -45,7 +44,7 @@ discovery | demo | negotiation
    nothing extra to pay. The models are included." (public changelog, 2026-10-04).
 3. Evidence of capability: dedicated and BYOC deployments, plus an open-source core that lets teams run it
    themselves. Do not describe specific customer deployments.
-4. Price around requirements: BYOC pricing depends on the deployment; the goal is to run the
+4. Scope around requirements: the goal is to run the
    infrastructure for the customer.
 5. Next step: while legal reviews the DPA, start scoping on redacted operational metrics (latencies,
    P90/P95, success rates) so the evaluation does not stall.

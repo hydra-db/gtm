@@ -3,10 +3,8 @@ title: Open source as the distribution engine, and the licence switch from AGPL 
 description: How Nishkarsh uses open source (core DB open-sourced 2026-08-12, "Glean, but open sourced", SelfGraph) for distribution, and the 2026-11-15 switch to ELv2, which superseded the July 2026 AGPL plan.
 confidence: hypothesis
 references:
-  - insight/2026-01-22-free-is-not-a-company-strategy
   - insight/2026-11-06-selfgraph-launch-and-positioning
   - insight/2026-11-04-sell-to-who-is-already-asking
-  - proof/open-source-momentum
   - global/company-timeline
 ---
 
@@ -37,8 +35,7 @@ loosened to reduce adoption friction.
 
 ## Implication
 
-Behind-the-scenes posts on licence choice and OSS-led growth are on-voice and concrete. GitHub star counts
-and their dates live in [[proof/open-source-momentum]]; never describe star growth as organic.
+Behind-the-scenes posts on licence choice and OSS-led growth are on-voice and concrete.
 
 ## Use in messaging
 

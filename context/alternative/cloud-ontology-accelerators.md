@@ -23,7 +23,7 @@ references:
 
 ## Pricing
 
-Open source and free from the vendor (implied by GitHub distribution).
+Not tracked.
 
 ## Strengths
 

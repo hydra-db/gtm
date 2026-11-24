@@ -58,7 +58,7 @@ Builds and debugs the retrieval stack behind production agents; runs agent evals
 ## Preferred channels
 
 - LinkedIn: outreach to AI heads gets replies; one LinkedIn campaign saw "23% accepts and 14% replies" (Internal: sales notes, 2026-09-23). Engagement with Nishkarsh's LinkedIn posts is a ranking signal. See [[global/linkedin-playbook]].
-- X (where the launch spread), GitHub (stars and forks as signals), Discord, Hacker News.
+- X (where the launch spread), GitHub, Discord, Hacker News.
 - Newsletters with technical audiences reaching "CTOs, ML and Software Engineers, data scientists, researchers and VCs".
 - YC network for agent-native companies; events and dinners for engineers.
 - With vendors: shared channels and short recurring syncs (15 minutes, once or twice a week).
@@ -77,7 +77,7 @@ Builds and debugs the retrieval stack behind production agents; runs agent evals
 ## How we land
 
 - Ask for their good and bad queries, set the metric before the POC, recommend an architecture for their pipeline, and respond fast (a senior buyer was "watching the POC closely, so response speed matters").
-- Show the three questions their vector search fails on, against their own data, then hand them the open-source framework and a free trial. Signups get a soft "thanks for being early" note offering 20 minutes, not a hard sell (Internal: team discussion, 2026-10-28).
+- Show the three questions their vector search fails on, against their own data, then hand them the open-source framework. Signups get a soft "thanks for being early" note offering 20 minutes, not a hard sell (Internal: team discussion, 2026-10-28).
 - Day-30 accuracy story for non-graph-natives; ontology engine, object-storage economics and agent primitives for graph natives (no speed or cost multiples).
 - Win the deciders, not only the champion. Nishkarsh: "We need to talk to CTO or closes persona." (Internal: founder note, 2026-11-04). Caution: an engineer signed up and used HydraDB, then stopped: "my founders asked me to use something else" (Internal: team discussion, 2026-10-27).
 - Merged from staging: calls/persona/head-of-ai-platform-lead, gtm/persona/ai-engineering-leader, product1/persona/ai-engineering-leader, product2/persona/agent-infra-engineer-and-cto. Individual contact names removed.

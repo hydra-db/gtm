@@ -2,6 +2,7 @@ import { defineAgent } from "@cargo-ai/cdk";
 
 import { contentWriterPrompt } from "./content-writer.prompt";
 import { anthropic } from "../../gtm-factory/agents/outreach-drafter";
+import { slack } from "../../shared/connectors/slack";
 import { agentsFolder } from "../folders";
 
 // The content writer: a Claude Code harness agent on a weekly cron.
@@ -28,6 +29,10 @@ import { agentsFolder } from "../folders";
 // the state's directory and production branch. `cargo-ai project check` prints
 // the binding; a project whose state is not connected deploys this agent
 // unbound, with an empty sandbox.
+// slack-heads-up adaptation: one DM to the author per run, after the pull
+// request is open. A Slack user ID as channelId posts a DM from the app.
+const AUTHOR_SLACK_USER_ID = "U04AKFHKULS"; // Nishkarsh Srivastava
+
 export const contentWriter = defineAgent("linkedin_content_writer", {
   name: "LinkedIn content writer",
   description:
@@ -48,6 +53,16 @@ export const contentWriter = defineAgent("linkedin_content_writer", {
       // run, so a merged week of web findings is already in context/.
       cron: "0 14 * * 1",
       text: "Draft this week's LinkedIn posts. Follow your system prompt exactly: one file for the ISO week, one pull request, every claim cited, nothing published.",
+    },
+  ],
+  uses: [
+    {
+      ref: slack.actions.postMessage,
+      config: {
+        channelId: AUTHOR_SLACK_USER_ID,
+        format: "markdown",
+        disableUnfurling: true,
+      },
     },
   ],
   systemPrompt: contentWriterPrompt,

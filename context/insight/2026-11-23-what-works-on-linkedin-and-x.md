@@ -12,7 +12,6 @@ references:
   - insight/2026-09-19-demos-sell-on-motion
   - global/linkedin-playbook
   - global/author-voice-nishkarsh
-  - proof/open-source-momentum
 ---
 
 ## Claim

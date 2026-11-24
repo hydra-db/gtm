@@ -5,7 +5,7 @@ references:
   - client/due-diligence-ai-dependent-documents
   - jtbd/connect-context-across-sources
   - global/positioning
-  - global/product-and-pricing
+  - global/product
 ---
 
 ## Job

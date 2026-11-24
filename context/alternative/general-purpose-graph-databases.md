@@ -32,7 +32,7 @@ public GQL conformance matrix as the "north star" (2026-10-22). Do not claim ful
 ## Pricing
 
 Not tracked. Buyer signal: for teams on a general-purpose graph database, cost often limits how far they
-expand. ICP trigger: "complaints about Neo4j cost or scale" (internal ICP doc, 2026-11-11).
+expand (do not discuss HydraDB pricing). ICP trigger: "complaints about Neo4j cost or scale" (internal ICP doc, 2026-11-11).
 
 ## Strengths
 

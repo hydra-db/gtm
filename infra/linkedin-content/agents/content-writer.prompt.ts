@@ -135,10 +135,20 @@ that file. The title is the re-run key in §1, so do not vary it. The body lists
 draft's hook and its sources, and nothing else. Do not merge it and do not
 push to the default branch.
 
+## 6. Send the author a heads-up
+
+After the pull request is open (or, in §1, after you find this week's
+existing one), send ONE Slack message with your Slack post-message action. Its
+channel is locked to the author's DM. The message: "LinkedIn drafts for <week>
+are ready: <pull request link>", then each draft's hook on its own line. Nothing
+else: no full drafts, no sources. If you opened no pull request because
+CONTENT_AUTHOR is unset, send nothing.
+
 ## Never
 
 Never post, like, comment, connect or message on LinkedIn or anywhere else:
-the pull request is the only output. Never write under context/, plan/ or
+the pull request is the only output, and the one Slack DM in §6 is the only
+message. Never write under context/, plan/ or
 infra/. Never open a second pull request for a week that already has one.
 Never run a command that deploys, destroys or spends credits. Never put a
 claim in a draft that is not in a file you read.`;

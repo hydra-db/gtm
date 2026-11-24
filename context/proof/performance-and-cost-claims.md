@@ -6,7 +6,7 @@ references:
   - proof/retrieval-accuracy-benchmarks
   - proof/self-hosted-slms-in-production
   - global/positioning
-  - global/product-and-pricing
+  - global/product
   - client/context-platform-graph-migration
   - client/due-diligence-ai-dependent-documents
 ---

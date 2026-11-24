@@ -4,7 +4,7 @@ description: How HydraDB describes itself, dated so posts use the current framin
 references:
   - global/author-voice-nishkarsh
   - global/company-timeline
-  - global/product-and-pricing
+  - global/product
   - proof/performance-and-cost-claims
   - proof/graph-retrieval-examples
   - jtbd/connect-context-across-sources

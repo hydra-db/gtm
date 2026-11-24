@@ -22,13 +22,13 @@ a sign that a team "has the problem and may be shopping." Honcho also comes up.
 
 Public positioning, as read from public sources (point in time, not verified by the team):
 
-| Product | How it positions | Public numbers (date read) |
-| --- | --- | --- |
-| Mem0 | agent memory layer | about 69k GitHub stars (2026-11-21) |
-| Supermemory | agent memory | about 32k GitHub stars (2026-11-21) |
-| Zep | agent memory and context built on a temporal knowledge graph combining business data, documents and conversations | open-source Graphiti engine, about 31k to 33k GitHub stars (2026-11-23) |
-| Cognee | open-source agent memory engine combining relational, vector and graph storage in one engine | about 33k GitHub stars (2026-11-23) |
-| Letta (formerly MemGPT) | platform for stateful agents with built-in tiered memory | about 25k GitHub stars (2026-11-23) |
+| Product | How it positions |
+| --- | --- |
+| Mem0 | agent memory layer |
+| Supermemory | agent memory |
+| Zep | agent memory and context built on a temporal knowledge graph combining business data, documents and conversations (open-source Graphiti engine) |
+| Cognee | open-source agent memory engine combining relational, vector and graph storage in one engine |
+| Letta (formerly MemGPT) | platform for stateful agents with built-in tiered memory |
 
 Zep overlaps most directly with Mem0, Supermemory and the memory use case of HydraDB, and appears in most
 "Mem0 alternatives" roundups. Letta is a full agent runtime, so it overlaps with HydraDB less directly than
@@ -38,11 +38,11 @@ Draft content once framed HydraDB "as a mem0 alternative"; Nishkarsh rejected th
 
 ## Pricing
 
-Only public data point: Letta launched a $20/mo Pro cloud tier in 2026. Others not tracked here.
+Not tracked.
 
 ## Strengths
 
-- Developer mindshare. Star counts and published papers (Mem0 and Zep papers trending in April 2026).
+- Developer mindshare and published papers (Mem0 and Zep papers trending in April 2026).
 - They own the search term; third-party roundups compare these names against each other.
 - Simple story and fast adoption: one API for remember and recall, "add memory to your agent".
 - Some products (Honcho, for example) have a clean design that buyers like for single-agent use.
@@ -82,7 +82,6 @@ retention is the outcome.
 - The buyer wants a drop-in chat-memory SDK in an afternoon and nothing else, or a finished memory
   product with no appetite to assemble anything (inference, not a recorded loss).
 - The buyer needs memory for one personal agent only.
-- Open-source star count is the buyer's proxy for safety.
 - The buyer wants a full agent runtime (Letta's lane).
 - Buyers want a named logo and a case study to prove "why us over managed memory" (2026-07-22). Until
   case studies are public, this is the gap.
@@ -96,7 +95,7 @@ retention is the outcome.
 - Ask whether they want a memory feature or a context layer they own. Offer backfill and a fast migration.
 - Lead with an outcome (retention, fewer repeat questions).
 - Users of these tools are a sourcing signal: they have the problem and may be shopping.
-- Treat public numbers as directional. Re-check before quoting stars or funding anywhere.
+- Treat public numbers as directional. Re-check before quoting funding anywhere.
 - Never pitch as "X alternative". LinkedIn: never name these products; say "memory layers" or "memory APIs".
 
 ## Source

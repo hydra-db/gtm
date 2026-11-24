@@ -3,7 +3,6 @@ title: Even very small customers now run enterprise-grade AI data reviews
 description: A very small customer on an entry plan sent a multi-point AI data review in November 2026. It pushed HydraDB to run self-hosted models, which went live in production on 2026-11-19.
 confidence: hypothesis
 references:
-  - objection/data-handling-dpa-and-retention
   - objection/data-residency-and-self-hosting
   - insight/2026-09-24-saas-customers-sit-above-your-access-boundary
   - icp/hydradb
@@ -18,7 +17,7 @@ stakes for a context layer.
 ## Evidence
 
 - Internal: customer call recap, 2026-11-10. A very small AI startup on an entry plan sent a multi-point
-  review covering which model provider handles each step, retention, data processing terms, deletion, and
+  review covering which model provider handles each step, data processing terms, deletion, and
   key scoping, with a deadline.
 - Internal: engineering notes, 2026-11-19. HydraDB's answer was to run its own small language models and
   embedding models so customer content for those steps does not go to an outside model provider. Self-hosted

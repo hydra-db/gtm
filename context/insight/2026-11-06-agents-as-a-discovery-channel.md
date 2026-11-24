@@ -6,7 +6,6 @@ references:
   - insight/2026-09-30-agents-choose-their-own-tools
   - insight/2026-09-10-blog-traffic-does-not-convert
   - insight/2026-07-25-benchmark-ranges-not-single-numbers
-  - proof/open-source-momentum
 ---
 
 ## Claim

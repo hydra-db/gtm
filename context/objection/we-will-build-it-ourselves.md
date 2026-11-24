@@ -7,7 +7,6 @@ references:
   - insight/2026-11-24-own-your-context-teach-dont-pitch
   - insight/2026-11-15-open-source-as-distribution
   - proof/performance-and-cost-claims
-  - proof/open-source-momentum
 ---
 
 ## Objection
@@ -41,7 +40,7 @@ discovery | negotiation
 ## Proof
 
 - Build-vs-buy decision by a senior engineering team (2026-07-24), anonymous only.
-- [[proof/open-source-momentum]] for the open-source core.
+-  for the open-source core.
 - [[proof/performance-and-cost-claims]] (no multiples in public).
 
 ## Followup

@@ -3,7 +3,7 @@ title: Self-hosted small language models live in production (2026-11-19)
 description: HydraDB moved embedding, extraction and query-understanding calls onto its own self-hosted small models, live on prod 2026-11-19, with measured latency. Supports "own your model" and data-control answers.
 confidence: hypothesis
 references:
-  - global/product-and-pricing
+  - global/product
   - global/positioning
   - proof/performance-and-cost-claims
   - client/due-diligence-ai-dependent-documents

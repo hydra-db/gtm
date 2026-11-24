@@ -1,10 +1,9 @@
 ---
-title: HydraDB product surface, open-source model and pricing (Apr to Nov 2026)
-description: What HydraDB is made of and what it ships (retrieval modes, llm_prompt, connectors, selfgraph, MCP tools, pg_hydradb, Go ingestion, self-hosted SLMs), which parts are open source, and the public self-serve and enterprise pricing touchpoints with dates.
+title: HydraDB product surface and open-source model (Apr to Nov 2026)
+description: What HydraDB is made of and what it ships (retrieval modes, llm_prompt, connectors, selfgraph, MCP tools, pg_hydradb, Go ingestion, self-hosted SLMs), which parts are open source.
 references:
   - global/positioning
   - global/company-timeline
-  - proof/open-source-momentum
   - proof/self-hosted-slms-in-production
   - proof/performance-and-cost-claims
   - jtbd/surface-every-dependent-document
@@ -12,7 +11,7 @@ references:
 
 ## Summary
 
-Hosted HydraDB (search, connectors, memories, knowledge graph) runs on an open-source graph core (ELv2), with an open-source agent graph framework (selfgraph) as the on-ramp. Self-hosting the core is free; the hosted app has a $25 per month tier; Enterprise adds on-prem models, connectors and support.
+Hosted HydraDB (search, connectors, memories, knowledge graph) runs on an open-source graph core (ELv2), with an open-source agent graph framework (selfgraph) as the on-ramp. Enterprise adds on-prem models, connectors and support.
 
 ## Detail
 
@@ -44,13 +43,6 @@ Permission-aware search (carries access rules from Google Drive, Slack, Jira); e
 - What is not: the managed platform layer and the Context Digestion Layer (CDL) (Internal: founder note, 2026-07-25).
 - How OSS is used in sales: for companies that say no to outreach, point them at the open-source project so "they can at least try us out for free" (Internal: founder note, 2026-08-12). OSS and hosted have different functionality and usage shapes; coding agents default to the OSS project.
 
-### Pricing touchpoints (dated)
-
-- Never quote enterprise prices in posts; enterprise and BYOC pricing depend on requirements.
-- 2026-09-21: plans named Ship and Scale.
-- 2026-10-02: hosted free plan deprecated.
-- 2026-10-04: "You can run HydraDB yourself for free, today and always. Enterprise adds the on-prem models, connectors and support on top." (Internal: public post, 2026-10-04)
-- 2026-11-10: a "$25 per month plan" allows one database (Internal: team discussion, 2026-11-10). Confirm current plans on the public pricing page before stating a price in a post.
 
 ## Source
 

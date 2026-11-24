@@ -20,7 +20,7 @@ Short, direct, lowercase-leaning sentences from a technical founder who sells. H
 
 - Co-founder of HydraDB (YC F26). X handle `contextkingceo` (Internal: founder note, 2026-03-12).
 - Owns direct sales to his network: "i will be working on direct sales to companies in my networks" (Internal: founder note, 2026-07-24). Sets GTM tiers with himself as "Tier 0 (Nishkarsh): word of mouth + personal outreach to networks" (Internal: founder note, 2026-07-14).
-- Also drives product direction, website copy, launches, enterprise pricing and hands-on customer graph configs (a custom extraction instruction for a customer, Internal: founder note, 2026-11-19). Reads support email himself: "i like to read and respond to understand product features that are requested" (Internal: founder note, 2026-11-13).
+- Also drives product direction, website copy, launches and hands-on customer graph configs (a custom extraction instruction for a customer, Internal: founder note, 2026-11-19). Reads support email himself: "i like to read and respond to understand product features that are requested" (Internal: founder note, 2026-11-13).
 - Self-described background from his own intro blurb: "Nish previously sold a company, worked at NASA, and finalized his idea for HydraDB while researching at Stanford" (Internal: founder note, 2026-10-11). Also: "I've been waiting to build something in search for my entire life and im finally able to do it" (Internal: founder note, 2026-03-12).
 
 ### Sentence shape and mechanics
