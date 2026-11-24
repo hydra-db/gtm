@@ -15,6 +15,7 @@ import {
   outOfScopeCategories,
   unknownCategory,
 } from "../settings";
+import { profileCron, profileLimit } from "../../tam-building/settings";
 
 // A model's uuid inside a play filter. The deploy resolves model handles
 // anywhere in a spec, but the play filter's type predates handles, so the
@@ -209,12 +210,9 @@ const profileCompany = defineWorkflow(
   },
 );
 
-// The only play, and a build step, not an always-on automation. The sources
-// carry no schedule, so new companies only arrive when you re-source; the play
-// runs once, as a batch, after each source sync (references/run.md). No
-// schedule and never enabled: a play with no schedule never runs on its own.
-// `once` means a re-run after a refresh pays only for the companies that are
-// new.
+// The only play. Since 2026-11-24 the AI Ark and Apollo sources refresh twice
+// a month (infra/tam-building/settings.ts) and this play ticks daily, capped,
+// over what arrived. `once` means it pays only for companies that are new.
 //
 // Its filter is what the batch runs over: the accounts at least one TAM
 // source found and no profile covers yet. A related-model condition reads the
@@ -274,7 +272,13 @@ export const profileCompanies = definePlay("tam_profile_companies", {
       },
     ],
   },
+  // Daily, at most `profileLimit` accounts a tick (about 1 credit each), so
+  // a refresh that brings hundreds of new accounts drains over days at about
+  // 30 credits a day at most. Off until its uncounted spend is approved on
+  // the pull request that switches it on.
+  limit: profileLimit,
   isEnabled: false,
   runCreationRule: "once",
   changeKinds: ["added"],
+  schedule: { type: "cron", cron: profileCron },
 });

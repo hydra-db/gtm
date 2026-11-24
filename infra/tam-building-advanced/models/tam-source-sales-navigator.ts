@@ -20,6 +20,9 @@ import { modelsFolder } from "../folders";
 // NO SCHEDULE, ON PURPOSE. Every sync re-bills every returned record. Re-run
 // it when you decide to refresh, and re-count the searches first: Sales
 // Navigator counts drift week to week.
+// LEFT OFF THE TWO-WEEKLY REFRESH (2026-11-24): one run re-bills about 549
+// credits, above the 100-credit ceiling for any one action. The other
+// sources refresh from infra/tam-building/settings.ts; this one does not.
 export const tamSourceSalesNavigator = defineModel(
   "tam_source_sales_navigator",
   {

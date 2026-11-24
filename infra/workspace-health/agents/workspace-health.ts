@@ -10,8 +10,8 @@ import { workspaceHealthUser } from "../users";
 // The channel findings land in, and the only channel this agent reads back.
 // One constant for both uses: the agent remembers what it already reported by
 // reading its own earlier posts, so posting to one channel and reading another
-// would make it repeat every finding every morning. It is a TODO in
-// ../settings.ts until #gtm-alerts exists.
+// would make it repeat every finding every morning. Set in ../settings.ts
+// (#sales).
 const HEALTH_CHANNEL_ID = healthChannelId;
 
 // Workspace health: a Claude Code harness agent, not a streamText agent.

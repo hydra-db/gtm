@@ -1,6 +1,7 @@
 import { defineModel } from "@cargo-ai/cdk";
 
 import { aiArk } from "../connectors/ai-ark";
+import { sourceRefreshSchedule } from "../../tam-building/settings";
 import { modelsFolder } from "../folders";
 
 // The lookalikes: companies that look like the customers you name. Filters
@@ -12,10 +13,14 @@ import { modelsFolder } from "../folders";
 // `lookalikeDomains` included, and is free. See references/configure.md.
 //
 // NO SCHEDULE, ON PURPOSE: every sync re-bills every returned record.
+// REFRESHED ONCE EVERY TWO WEEKS, by operator decision (2026-11-24), only
+// while `refreshEnabled` in infra/tam-building/settings.ts is true. Each run
+// re-bills every returned record (see that file for the per-run cost).
 export const tamSourceAiArk = defineModel("tam_source_ai_ark", {
   name: "TAM source: AI Ark",
   connector: aiArk,
   extractSlug: "fetchCompanies",
+  schedule: sourceRefreshSchedule,
   description:
     "TAM source 2 of 4: AI Ark lookalikes of named customers, inside the ICP filters.",
   folder: modelsFolder,

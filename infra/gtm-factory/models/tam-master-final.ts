@@ -1,5 +1,6 @@
 import { defineModel } from "@cargo-ai/cdk";
 
+import { tierColumns } from "../../account-scoring/models/tier-columns";
 import { modelsFolder } from "../folders";
 
 type Row = { domain?: string | null };
@@ -56,7 +57,10 @@ export const tamMasterFinal = defineModel("tam_master_final", {
       { slug: "added_at", type: "date" },
     ],
   },
+  // The account-scoring tier (infra/account-scoring) on the book, beside the
+  // computed match domain.
   additionalColumns: [
+    ...tierColumns,
     {
       kind: "computed",
       slug: "match_domain",

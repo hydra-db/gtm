@@ -81,6 +81,9 @@ agents act across each customer's systems; they pass the same must-haves as ever
 
 ## Scoring (out of 10, work 7+ first)
 
+Applied by Cargo's account-scoring since 2026-11-24, as tiers A, B, C or disqualified: see
+[[icp/tiering-rubric]].
+
 - 3 points: agents make cross-system decisions per tenant
 - 2 points: graph or memory hiring or tech in use
 - 2 points: Series B+ in the last 12 months

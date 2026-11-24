@@ -94,7 +94,7 @@ export const routeReadyAccounts = definePlay("route_ready_accounts", {
       },
     ],
   },
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "noConcurrency",
   changeKinds: ["added"],
   schedule: { type: "cron", cron: "20 * * * *" },
