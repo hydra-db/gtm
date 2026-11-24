@@ -1,5 +1,6 @@
 import { defineModel } from "@cargo-ai/cdk";
 
+import { tierColumns } from "../../account-scoring/models/tier-columns";
 import { modelsFolder } from "../folders";
 
 // Every company any source proposes, scored once. `key` is the bare domain when
@@ -35,5 +36,9 @@ export const tamCandidates = defineModel("tam_candidates", {
       { slug: "scored_at", type: "date" },
     ],
   },
+  // The account-scoring tier (infra/account-scoring), which replaced the
+  // research gate on 2026-11-24. The gate's own columns above stay: they hold
+  // every verdict made before the swap.
+  additionalColumns: tierColumns,
   folder: modelsFolder,
 });
