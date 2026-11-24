@@ -180,7 +180,8 @@ const tierCandidate = defineWorkflow(
 // every source stamps `added_at` (social listening stamps `last_signal_at`).
 // A row whose run fails keeps its slot until someone looks (workspace health
 // reports failing runs).
-// Switched on 2026-11-24 (operator: "close the loops").
+// Off until its uncounted spend is approved on the pull request that
+// switches it on; the old gate keeps scoring new candidates until then.
 export const tierAccounts = definePlay("tier_accounts", {
   name: "Account scoring: tier new candidates",
   description:
@@ -205,7 +206,7 @@ export const tierAccounts = definePlay("tier_accounts", {
     ],
   },
   limit: dailyTierLimit,
-  isEnabled: true,
+  isEnabled: false,
   runCreationRule: "noConcurrency",
   changeKinds: ["added"],
   schedule: { type: "cron", cron: "15 9 * * *" },

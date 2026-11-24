@@ -272,12 +272,12 @@ export const profileCompanies = definePlay("tam_profile_companies", {
       },
     ],
   },
-  // Switched on 2026-11-24 with the two-weekly source refresh. Daily, at
-  // most `profileLimit` accounts a tick (about 1 credit each), so a refresh
-  // that brings hundreds of new accounts drains over days at about 30
-  // credits a day at most.
+  // Daily, at most `profileLimit` accounts a tick (about 1 credit each), so
+  // a refresh that brings hundreds of new accounts drains over days at about
+  // 30 credits a day at most. Off until its uncounted spend is approved on
+  // the pull request that switches it on.
   limit: profileLimit,
-  isEnabled: true,
+  isEnabled: false,
   runCreationRule: "once",
   changeKinds: ["added"],
   schedule: { type: "cron", cron: profileCron },
