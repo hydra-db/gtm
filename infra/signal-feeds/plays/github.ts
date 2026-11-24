@@ -3,7 +3,6 @@ import { z } from "zod";
 
 import { playsFolder } from "../../gtm-factory/folders";
 import { tamCandidates } from "../../gtm-factory/models/tam-candidates";
-import { slack } from "../../shared/connectors/slack";
 import { github, githubApi } from "../connectors";
 import { githubSignals } from "../models/github-signals";
 import { signalFeedInputs } from "../models/signal-feed-inputs";
@@ -11,18 +10,15 @@ import { githubWindow } from "../scripts/github-window";
 import { pickGithubPeople } from "../scripts/pick-github-people";
 import { resolveGithubEmployer } from "../scripts/resolve-github-employer";
 import { stargazersUrl } from "../scripts/stargazers-url";
-import {
-  githubWindowHours,
-  maxGithubPeoplePerRepo,
-  visitorsChannelId,
-} from "../settings";
+import { githubWindowHours, maxGithubPeoplePerRepo } from "../settings";
 
 // One run per watched repo, every 12 hours. Reads the repo's new stargazers
 // and new issue and pull request authors from the last 12 hours (GitHub REST),
 // looks each person up (Cargo's GitHub connector), and keeps only people whose
-// profile names a real company: a github_signals row, the company to the ICP
-// gate, and, on our own repos, a line in #visitors. Discussions are not read:
-// GitHub serves them only over its authenticated GraphQL API. Listing
+// profile names a real company: a github_signals row and the company to the
+// ICP gate (plays/post-own-repo-people.ts posts our own repos' to #visitors).
+// Discussions are not read: GitHub serves them only over its authenticated
+// GraphQL API. Listing
 // stargazers needs an authenticated call too: until GITHUB_TOKEN is stored as
 // "Bearer <token>" that call fails and is skipped (continueOnFailure), so this
 // play reads issues and pull requests only, and our own repos' stars come from
@@ -35,7 +31,7 @@ const watchRepo = defineWorkflow(
       kind: z.string().optional(),
     }),
     output: z.object({ result: z.string() }),
-    uses: { githubApi, github, slack },
+    uses: { githubApi, github },
     imports: {
       githubSignals,
       tamCandidates,
@@ -45,7 +41,6 @@ const watchRepo = defineWorkflow(
       stargazersUrl,
       githubWindowHours,
       maxGithubPeoplePerRepo,
-      visitorsChannelId,
     },
   },
   ({ input, uses, model }) => {
@@ -116,14 +111,6 @@ const watchRepo = defineWorkflow(
             { columnSlug: "last_signal_at", value: new Date() },
           ],
         });
-        if (input.kind === "own") {
-          uses.slack.postMessage({
-            channelId: visitorsChannelId,
-            format: "markdown",
-            disableUnfurling: true,
-            body: `*${employer.person_name}* (<https://github.com/${person.login}|${person.login}>) at *${employer.company_label}*: ${person.action} on ${input.value}\n${person.url}`,
-          });
-        }
       }
     }
     return { result: "done" };
@@ -137,7 +124,7 @@ const watchRepo = defineWorkflow(
 export const githubEvery12h = definePlay("signal_feeds_github_12h", {
   name: "Signal feeds: GitHub repos, every 12 hours",
   description:
-    "For every watched repo: new stargazers, issue and PR authors at real companies into github_signals, their companies to the ICP gate, and our own repos' to #visitors.",
+    "For every watched repo: new stargazers, issue and PR authors at real companies into github_signals, and their companies to the ICP gate.",
   folder: playsFolder,
   model: signalFeedInputs,
   workflow: watchRepo,

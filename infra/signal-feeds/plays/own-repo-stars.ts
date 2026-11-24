@@ -3,7 +3,6 @@ import { z } from "zod";
 
 import { playsFolder } from "../../gtm-factory/folders";
 import { tamCandidates } from "../../gtm-factory/models/tam-candidates";
-import { slack } from "../../shared/connectors/slack";
 import { github } from "../connectors";
 import { githubSignals } from "../models/github-signals";
 import {
@@ -11,12 +10,11 @@ import {
   selfgraphStargazers,
 } from "../models/own-repo-stargazers";
 import { resolveGithubEmployer } from "../scripts/resolve-github-employer";
-import { visitorsChannelId } from "../settings";
 
 // One new star on our own repos: the person's GitHub profile, and when it
-// names a real company, a github_signals row, the company to the ICP gate and
-// a line in #visitors. A personal, student or empty-company profile is
-// dropped.
+// names a real company, a github_signals row and the company to the ICP gate
+// (plays/post-own-repo-people.ts posts it to #visitors). A personal, student
+// or empty-company profile is dropped.
 const starWorkflow = (slug: string) =>
   defineWorkflow(
     slug,
@@ -27,8 +25,8 @@ const starWorkflow = (slug: string) =>
         computed__repo: z.string(),
       }),
       output: z.object({ result: z.string() }),
-      uses: { github, slack },
-      imports: { githubSignals, tamCandidates, resolveGithubEmployer, visitorsChannelId },
+      uses: { github },
+      imports: { githubSignals, tamCandidates, resolveGithubEmployer },
     },
     ({ input, uses, model }) => {
       const user = uses.github.getUser({ userName: input.username }, { retry: 2 });
@@ -67,13 +65,7 @@ const starWorkflow = (slug: string) =>
             { columnSlug: "last_signal_at", value: new Date() },
           ],
         });
-        uses.slack.postMessage({
-          channelId: visitorsChannelId,
-          format: "markdown",
-          disableUnfurling: true,
-          body: `*${employer.person_name}* (<https://github.com/${input.username}|${input.username}>) at *${employer.company_label}*: starred ${input.computed__repo}`,
-        });
-        return { result: "posted" };
+        return { result: "kept" };
       }
       return { result: "no_company" };
     },
@@ -101,7 +93,7 @@ const recentOnly = {
 export const hydradbStars = definePlay("signal_feeds_hydradb_stars", {
   name: "Signal feeds: new hydradb stars",
   description:
-    "Each new star on hydra-db/hydradb from someone at a real company: a github_signals row, the company to the ICP gate, and a line in #visitors.",
+    "Each new star on hydra-db/hydradb from someone at a real company: a github_signals row, and the company to the ICP gate.",
   folder: playsFolder,
   model: hydradbStargazers,
   workflow: starWorkflow("signal_feeds_hydradb_stars_workflow"),
@@ -115,7 +107,7 @@ export const hydradbStars = definePlay("signal_feeds_hydradb_stars", {
 export const selfgraphStars = definePlay("signal_feeds_selfgraph_stars", {
   name: "Signal feeds: new selfgraph stars",
   description:
-    "Each new star on hydra-db/selfgraph from someone at a real company: a github_signals row, the company to the ICP gate, and a line in #visitors.",
+    "Each new star on hydra-db/selfgraph from someone at a real company: a github_signals row, and the company to the ICP gate.",
   folder: playsFolder,
   model: selfgraphStargazers,
   workflow: starWorkflow("signal_feeds_selfgraph_stars_workflow"),
