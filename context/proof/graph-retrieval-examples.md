@@ -1,6 +1,6 @@
 ---
 title: Graph retrieval examples (the swim-meet arc and the Tampa query)
-description: Two concrete examples that show why connected, time-ordered context beats isolated chunks: a note-taker user's progress arc that vector search would fragment, and a benchmark query answered with no keyword match.
+description: "Two concrete examples that show why connected, time-ordered context beats isolated chunks: a note-taker user's progress arc that vector search would fragment, and a benchmark query answered with no keyword match."
 confidence: hypothesis
 references:
   - client/meeting-notes-app-longitudinal-memory

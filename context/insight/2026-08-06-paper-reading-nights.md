@@ -1,6 +1,6 @@
 ---
 title: What engineers ask at HydraDB's paper reading nights
-description: First recorded in-person paper reading session (GNN-RAG) in August 2026: 20 sign-ups, 8 attended, 4.5/5 discussion quality, and the questions engineers raised about graph retrieval.
+description: "First recorded in-person paper reading session (GNN-RAG) in August 2026: 20 sign-ups, 8 attended, 4.5/5 discussion quality, and the questions engineers raised about graph retrieval."
 confidence: hypothesis
 references:
   - insight/2026-07-23-community-gtm-lessons

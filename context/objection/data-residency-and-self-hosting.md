@@ -1,6 +1,6 @@
 ---
-title: "Our data can't leave our environment" (residency, self-hosting, compliance certifications)
-description: The most common enterprise blocker: residency law, self-hosting, network lockdown, an unsupported cloud, or SOC 2 / HIPAA asks. HydraDB's answer evolved into BYOC, on-prem SLMs in Enterprise, and certifications in progress (not complete).
+title: "\"Our data can't leave our environment\" (residency, self-hosting, compliance certifications)"
+description: "The most common enterprise blocker: residency law, self-hosting, network lockdown, an unsupported cloud, or SOC 2 / HIPAA asks. HydraDB's answer evolved into BYOC, on-prem SLMs in Enterprise, and certifications in progress (not complete)."
 references:
   - objection/data-handling-dpa-and-retention
   - objection/permissions-and-isolation

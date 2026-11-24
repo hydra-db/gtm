@@ -1,6 +1,6 @@
 ---
 title: "We'll build our own graph / memory layer in-house"
-description: Build-vs-buy objection from strong engineering teams. Counter-evidence: a strong infrastructure engineering team chose HydraDB over building in-house; the founder's stance is to help them build on HydraDB, starting from the open-source core.
+description: "Build-vs-buy objection from strong engineering teams. Counter-evidence: a strong infrastructure engineering team chose HydraDB over building in-house; the founder's stance is to help them build on HydraDB, starting from the open-source core."
 references:
   - objection/data-residency-and-self-hosting
   - alternative/postgres-and-one-engine-databases
