@@ -45,7 +45,11 @@ export const tierC = defineSegment("tier_c_accounts", {
 });
 
 // Suppress, do not work. A large share means the sourcing filter is too wide.
+// Named apart from a leftover "Disqualified Accounts" segment (on the
+// unmanaged gtm_companies model, 2026-11-11), which a deploy would collide
+// with.
 export const disqualified = defineSegment("disqualified_accounts", {
+  name: "Disqualified book accounts",
   model: tamMasterFinal,
   filter: onTier("disqualified"),
 });
