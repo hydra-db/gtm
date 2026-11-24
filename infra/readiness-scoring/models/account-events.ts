@@ -10,8 +10,9 @@ const halfLives = Object.fromEntries(
 );
 
 // Unify Account Events: one row per event on an account, from every model that
-// unifies as an account event: here job_post_signals, oss_signals,
-// social_listening and website_visitors. A new source reaches the score by
+// unifies as an account event: every model weighed in settings.ts (job posts,
+// job switches, GitHub, LinkedIn and X posts, LinkedIn engagement, Reddit and
+// Hacker News, blogs, website visitors). A new source reaches the score by
 // unifying here and getting a weight in settings.ts, with no edit to the score.
 //
 // It held no rows before this pipeline: none of those models unified as an

@@ -30,6 +30,7 @@ cargo.state.audit.jsonl
 !.agents/skills/cadence/
 !.agents/skills/capture-feedback/
 !.agents/skills/context-hygiene/
+!.agents/skills/goal-coverage/
 !.agents/skills/new-execution/
 !.agents/skills/new-motion/
 !.agents/skills/readiness-scoring/
@@ -45,6 +46,7 @@ skills-lock.json
 !.claude/skills/cadence
 !.claude/skills/capture-feedback
 !.claude/skills/context-hygiene
+!.claude/skills/goal-coverage
 !.claude/skills/new-execution
 !.claude/skills/new-motion
 !.claude/skills/readiness-scoring

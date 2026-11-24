@@ -1,8 +1,6 @@
-import { defineRole, defineUser } from "@cargo-ai/cdk";
+import { defineUser } from "@cargo-ai/cdk";
 
-// The workspace system role every reader holds. Adopted, not created: a system
-// role cannot be edited, so there is no permission list here to drift.
-const viewer = defineRole("viewer", { adopt: true });
+import { viewer } from "../../shared/roles/viewer";
 
 // The service user every workspace-health run is signed in as. The sandbox gets a
 // short-lived `CARGO_API_TOKEN` for it, so `cargo-ai` reads the workspace as
