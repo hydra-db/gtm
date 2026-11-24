@@ -1,8 +1,8 @@
 ---
 title: Company plan
-description: The one goal for HydraDB's go-to-market, proposed and not yet confirmed, with every number left for the owner to fill in.
-period: TODO(owner) e.g. 2026-12-01 to 2027-05-31
-status: proposed
+description: Reach $25M ARR by 2027-12-31, through $500K, $1M and $5M ARR milestones, with signal-led cold outreach as the first source of deals.
+period: 2026-11-24 to 2027-12-31
+status: active
 owner: Nishkarsh
 ---
 
@@ -12,8 +12,14 @@ until the owner fills it in and moves this file out of `proposed`._
 
 ## The one goal
 
-Turn signal-led cold outreach into a repeatable source of first deals: TODO(owner)
-Prospecting deals in Attio by TODO(owner) YYYY-MM-DD, up from 0 on 2026-11-24.
+Reach $25M ARR by 2027-12-31. Starting ARR on 2026-11-24: TODO(owner).
+
+| By | ARR |
+| --- | --- |
+| 2026-11-30 | $500K |
+| 2027-01-31 | $1M |
+| 2027-03-31 | $5M |
+| 2027-12-31 | $25M |
 
 What is known today:
 
@@ -26,8 +32,8 @@ What is known today:
   Qualified, Not now, Not interested). A Qualified reply becomes a Deal at
   Prospecting. Not now and Not interested go to the Community & events list.
 
-_Not set, on purpose: revenue, ARR, deal value and win-rate targets. They are
-the owner's to write, not an agent's to guess._
+_ARR targets set by the owner on 2026-11-24. Deal value and win-rate targets
+are still the owner's to write._
 
 ## The forecast
 
