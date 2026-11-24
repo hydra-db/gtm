@@ -1,16 +1,22 @@
 ---
-title:
-description:
-period:
+title: HydraDB company plan
+description: Reach $25M ARR by 2027-12-31, through $500K, $1M and $5M ARR milestones.
+period: 2026-11-24 to 2027-12-31
 ---
-
-_Fill this in for your company. `period:` is an absolute date range, e.g.
-`2026-07-01 to 2026-12-31`._
 
 ## The one goal
 
-_One number, with the number it starts from and the date it has to be true by.
-"Reach $Xm ARR by YYYY-MM-DD, up from $Ym on YYYY-MM-DD."_
+Reach $25M ARR by 2027-12-31. Starting ARR on 2026-11-24 is not yet recorded
+here: add it.
+
+Milestones on the way:
+
+| By | ARR |
+| --- | --- |
+| 2026-11-30 | $500K |
+| 2027-01-31 | $1M |
+| 2027-03-31 | $5M |
+| 2027-12-31 | $25M |
 
 _One goal. If a piece of work does not move this number, it is not on the plan._
 
