@@ -67,6 +67,10 @@ infrastructure or retrieval.
 - One-shot lookup agents
 - No in-house engineering
 
+Agent-framework and LLM-infrastructure vendors (for example Deepgram) are in scope when their own
+agents act across each customer's systems; they pass the same must-haves as everyone else
+(operator, 2026-11-24).
+
 ## Buyers and triggers
 
 - Champion: staff or principal engineer owning agent memory or retrieval, or the head of AI
