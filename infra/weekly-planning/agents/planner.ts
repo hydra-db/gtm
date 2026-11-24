@@ -9,7 +9,7 @@ import { agentsFolder } from "../folders";
 //
 // `harness: "claudeCode"` swaps the LLM loop for the coding runtime, and that
 // is what makes this skill possible. The output of a week is not a column
-// value; it is one or more diffs — a raw dump plus one recommendation file
+// value; it is one or more diffs: a raw dump plus one recommendation file
 // per active initiative (or one workspace file when there are none). Only an
 // agent with a working tree can produce those diffs, and only a pull request
 // makes a recommendation reviewable before it is next week's work.
@@ -19,14 +19,14 @@ import { agentsFolder } from "../folders";
 // connector and meters usage against this slug. Any Anthropic model works with
 // `claudeCode`; see `../connectors/anthropic.ts`.
 //
-// No `capabilities`, on purpose. The workspace half of the week — whoami, the
-// week's runs, credits, what is even deployed — is read with Cargo's own CLI,
+// No `capabilities`, on purpose. The workspace half of the week (whoami, the
+// week's runs, credits, what is even deployed) is read with Cargo's own CLI,
 // which the harness already has: it clones a Cargo project, so `cargo-ai` (or
 // its `npx @cargo-ai/cli` form) is right there next to the toolchain that
 // project pins, and the plugin's own approval hook already treats those reads
 // as the safe class. A capability would be a second path to the same data,
 // wired in the release rather than in the prompt, and only the prompt can say
-// "read, never execute" — which is the whole point here, because a
+// "read, never execute", which is the whole point here, because a
 // recommendation is markdown a human merges, not a deploy. The commands are
 // listed in `planner.prompt.ts` §1b.
 // #sales. A Slack channel id, not a name. The weekly note lands here, and
@@ -41,7 +41,7 @@ export const planner = defineAgent("weekly_planning", {
   color: "blue",
   harness: "claudeCode",
   connector: anthropic,
-  languageModel: "claude-sonnet-5", // PLACEHOLDER — your model of choice
+  languageModel: "claude-sonnet-5", // PLACEHOLDER: your model of choice
   // No `state`: deploy binds this project's connected state (cargo.state.json),
   // and the harness clones its repository at the state's directory and
   // production branch. That directory must hold the package.json declaring

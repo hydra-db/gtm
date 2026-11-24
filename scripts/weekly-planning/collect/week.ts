@@ -4,7 +4,7 @@
  * The deterministic half of weekly planning: it dumps git commits, pull
  * requests, active initiatives, declared infra, and cadence files dated
  * inside the previous ISO week into
- * cadence/log/raw/planning/<YYYY-Www>.md. It makes no judgements — no
+ * cadence/log/raw/planning/<YYYY-Www>.md. It makes no judgements: no
  * recommendations, no ranking, no "what to do". That is the planner
  * agent's job, and keeping the two apart is the point: a fetch loop an
  * LLM re-derives every Monday is a fetch loop that silently changes
@@ -226,7 +226,7 @@ const formatPulls = (
   return week.map((row) => {
     const who = row.author?.login ?? "unknown";
     const state = row.state === undefined ? "" : `, ${row.state}`;
-    return `- #${row.number} ${row.title} (${who}${state}, ${row[stamp]}) — ${row.url}`;
+    return `- #${row.number} ${row.title} (${who}${state}, ${row[stamp]}): ${row.url}`;
   });
 };
 
@@ -262,7 +262,7 @@ const initiativeLines =
         } catch {
           status = "unreadable";
         }
-        return `- \`${slug}\` status: ${status} — \`${rel}\``;
+        return `- \`${slug}\` status: ${status}, \`${rel}\``;
       });
 
 const infraFiles = walk(INFRA_DIR).filter(
