@@ -1,7 +1,7 @@
 ---
 title: Seed signal_feed_inputs
 description: The first rows of signal_feed_inputs, the list the GitHub and job-post feeds run over.
-outcome: pending
+outcome: 24 signal_feed_inputs rows written (23 GitHub repos, 1 job-post row), 0 credits.
 date: 2026-11-24
 serves: readiness scoring signal coverage
 ---
@@ -15,8 +15,8 @@ serves: readiness scoring signal coverage
 
 ## Headline result
 
-- 24 rows expected: 23 GitHub repos (2 own, 21 primitives) and 1 job-post row.
-  Cost: 0 credits.
+- 24 rows written on the #23 deploy (2026-11-24): 23 GitHub repos (2 own, 21
+  primitives) and 1 job-post row. Cost: 0 credits.
 
 ## Where the full data lives
 
