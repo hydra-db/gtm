@@ -125,6 +125,12 @@ const scoreCandidate = defineWorkflow(
   },
 );
 
+// TO BE REPLACED by Cargo's account-scoring (infra/account-scoring, play
+// `tier_accounts`), which tiers the same tam_candidates rows against
+// context/icp/tiering-rubric.md, the same rules carried over. It stays on
+// until the pull request that switches `tier_accounts` on also switches this
+// off; its columns and rows stay either way.
+//
 // Scores every candidate that has no verdict yet, every hour. The first load
 // (2026-11-13) was run by hand as batches; from here on, every company a
 // listening job adds is scored within the hour. Each score is one research
