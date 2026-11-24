@@ -91,9 +91,7 @@ export const jobSwitchesToSales = definePlay("signal_feeds_job_switches", {
   model: newDecisionMakers,
   workflow: routeJobSwitch,
   schedule: { type: "cron", cron: "33 * * * *" },
-  // Ships off: switched on by the next pull request, once its model exists
-  // and Cargo's merge preview can count the records it will run on.
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "once",
   changeKinds: ["added"],
 });

@@ -108,7 +108,7 @@ const listenForums = defineWorkflow(
       input: queries.redditInput,
       memory: 512,
       timeout: 300,
-    });
+    }, { retry: 2, continueOnFailure: true });
     const redditPicked = pickRedditPosts({
       items: reddit,
       keyword: input.keyword,

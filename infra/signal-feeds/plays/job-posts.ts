@@ -108,9 +108,7 @@ export const jobPostsEvery12h = definePlay("signal_feeds_job_posts_12h", {
     ],
   },
   schedule: { type: "cron", cron: "43 5,17 * * *" },
-  // Ships off: switched on by the next pull request, once its model exists
-  // and Cargo's merge preview can count the records it will run on.
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "always",
   changeKinds: ["added", "updated", "unchanged"],
 });
