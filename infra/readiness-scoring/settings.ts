@@ -9,19 +9,27 @@
 // keys are model slugs. An event whose key is not listed here weighs nothing: a
 // new model must not move a score until someone has decided what it is worth.
 //
-// Set by the operator on 2026-11-24. No Cargo Signals feed: they bill per event
-// delivered, and every signal below is already in the workspace for free.
+// Set by the operator on 2026-11-24. No Cargo Signals type key: the Cargo
+// Signals feeds (infra/signal-feeds) are copied into their own signal models,
+// which carry no signal_type, so every key here is a model slug.
 export const signals: Record<string, { weight: number; halfLifeDays: number }> =
   {
     // Job posts naming graph, memory or context work (theirStack).
     job_post_signals: { weight: 8, halfLifeDays: 21 },
-    // GitHub activity on watched repos (Dayly).
+    // A new CTO, VP Eng or Head of AI at a working-list company (Cargo Signals).
+    job_switch_signals: { weight: 7, halfLifeDays: 30 },
+    // GitHub activity on watched repos: Dayly's feed, then signal-feeds' own.
     oss_signals: { weight: 5, halfLifeDays: 14 },
+    github_signals: { weight: 5, halfLifeDays: 14 },
     // LinkedIn and X posts on a listening keyword.
     social_listening: { weight: 4, halfLifeDays: 14 },
-    // Reddit and Hacker News threads. Uncomment once a `reddit_hn_signals`
-    // model exists and unifies as an account event.
-    // reddit_hn_signals: { weight: 3, halfLifeDays: 14 },
+    // Engagement with competitors' and their CEOs' LinkedIn posts, and our
+    // founder's new connections (Cargo Signals).
+    linkedin_engagement_signals: { weight: 4, halfLifeDays: 14 },
+    // Reddit and Hacker News posts that name their company.
+    reddit_hn_signals: { weight: 3, halfLifeDays: 14 },
+    // Company engineering blog posts on a listening keyword (Exa).
+    blog_signals: { weight: 3, halfLifeDays: 21 },
     // A company seen on hydradb.com (Snitcher, "website visitors hydradb").
     website_visitors: { weight: 2, halfLifeDays: 7 },
   };
