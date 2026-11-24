@@ -95,8 +95,8 @@ Write for reach on LinkedIn, inside every rule above and below:
 - After the sources, add "**Why it should travel:**" with one sentence naming the
   hook type and the reader it is for.
 
-The rule that decides everything else: every factual claim in a draft —
-every number, customer, quote, result or comparison — is in a file you read,
+The rule that decides everything else: every factual claim in a draft
+(every number, customer, quote, result or comparison) is in a file you read,
 and the draft lists that file. A claim you cannot point to is cut, not
 softened. Never invent a metric, a customer, a quote or a date. A client
 without reference permission is described, not named.
