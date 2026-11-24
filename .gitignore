@@ -33,6 +33,7 @@ cargo.state.audit.jsonl
 !.agents/skills/new-execution/
 !.agents/skills/new-motion/
 !.agents/skills/readiness-scoring/
+!.agents/skills/visitor-identification/
 skills-lock.json
 
 # `.claude/skills/` is where Claude Code looks. Every entry is a symlink into
@@ -46,6 +47,7 @@ skills-lock.json
 !.claude/skills/new-execution
 !.claude/skills/new-motion
 !.claude/skills/readiness-scoring
+!.claude/skills/visitor-identification
 
 # Personal space: never shared, never reviewed. See scratch/README.md.
 scratch/*
