@@ -1,38 +1,46 @@
 ---
-title:
-description:
-period:
+title: Company plan
+description: The one goal for HydraDB's go-to-market, proposed and not yet confirmed, with every number left for the owner to fill in.
+period: TODO(owner) e.g. 2026-12-01 to 2027-05-31
+status: proposed
+owner: Nishkarsh
 ---
 
-_Fill this in for your company. `period:` is an absolute date range, e.g.
-`2026-07-01 to 2026-12-31`._
+_Status: proposed, owner: Nishkarsh. Written on 2026-11-24 from what is
+already true in the repo and the workspace. No number below is a commitment
+until the owner fills it in and moves this file out of `proposed`._
 
 ## The one goal
 
-_One number, with the number it starts from and the date it has to be true by.
-"Reach $Xm ARR by YYYY-MM-DD, up from $Ym on YYYY-MM-DD."_
+Turn signal-led cold outreach into a repeatable source of first deals: TODO(owner)
+Prospecting deals in Attio by TODO(owner) YYYY-MM-DD, up from 0 on 2026-11-24.
 
-_One goal. If a piece of work does not move this number, it is not on the plan._
+What is known today:
+
+- HydraDB (YC F26) is a graph-native context layer for AI agents.
+- The motion is signal-led cold outreach to Series B and later companies whose
+  agents need memory (`context/icp/hydradb.md`,
+  `context/motion/signal-feedback-outreach.md`).
+- Outreach runs through lemlist from two inboxes.
+- Replies land in Attio, in the People list Engaged (Replied, In conversation,
+  Qualified, Not now, Not interested). A Qualified reply becomes a Deal at
+  Prospecting. Not now and Not interested go to the Community & events list.
+
+_Not set, on purpose: revenue, ARR, deal value and win-rate targets. They are
+the owner's to write, not an agent's to guess._
 
 ## The forecast
 
-_Where the gap between today's number and the goal comes from, one row per
-source, each with the assumption it rests on. Name the assumption even when it
-is uncomfortable: a line that is extrapolation and a line that is an unproven
-bet should not read the same._
-
 | Source | Contribution | Assumption |
 | --- | --- | --- |
-|  |  |  |
+| Signal-led cold outreach (lemlist, two inboxes) | TODO(owner) Prospecting deals | TODO(owner): weekly send volume, reply rate, Qualified rate |
+| Community & events (Not now, Not interested) | TODO(owner) | Unproven: a later conversation comes from staying in touch, not from a sequence |
 
 ## The three moves
 
-_At most three. Each one names the ICP, context note, or initiative it runs
-through, so the move is traceable to something that exists._
+1. Signal-led outreach to the ICP in `context/icp/hydradb.md`, through
+   `context/motion/signal-feedback-outreach.md`.
+2. Every reply worked in Attio: Engaged, then a Prospecting deal when Qualified.
+3. TODO(owner): the third move, or leave it empty.
 
-1.
-2.
-3.
-
-_Anything not on this list is a distraction until the next planning cycle. Say
-that out loud here, because it is what the list is for._
+_Anything not on this list is a distraction until the next planning cycle._
