@@ -7,7 +7,7 @@ import { tamCandidates } from "../../gtm-factory/models/tam-candidates";
 import { tamMasterFinal } from "../../gtm-factory/models/tam-master-final";
 import { tierAnalyst } from "../agents/tier-analyst";
 import { playsFolder } from "../folders";
-import { rescoreAfter } from "../settings";
+import { dailyTierLimit, rescoreAfter } from "../settings";
 
 // Two plays, one agent. `tier_accounts` tiers every company a source adds to
 // tam_candidates (it replaces the old research gate, `tam_score_candidates`),
@@ -167,16 +167,24 @@ const tierCandidate = defineWorkflow(
   },
 );
 
-// Every candidate never tiered, or tiered before `rescoreAfter`. Eligibility
-// is the stamp, never the tier: a failed run leaves a null stamp and is
-// retried; a `disqualified` stays put until it goes stale.
-// `changeKinds: ["added"]` keeps the bill to rows entering the filter, not the
-// whole model per tick. Ships disabled: pilot first (references/run.md in the
-// skill), then enable. Enabling does not backfill the rows already there.
+// New companies only: a candidate no gate has judged yet (`status` empty:
+// the old gate wrote it on every row it scored, and this play writes it too)
+// and never tiered. The ~2,400 rows the old gate already judged are left
+// alone; re-tiering them is `tier_book`'s job, and that is off.
+//
+// CAPPED: once a day, at most `dailyTierLimit` rows a tick (settings.ts). At
+// 3 to 5 credits a company that is about 30 credits a day at most; a burst
+// (a TAM refresh adding dozens) drains over the following days instead of
+// billing at once. `limit` caps the play's segment, and a row leaves it as
+// soon as it is tiered, so the next tick takes the next ones. No sort: not
+// every source stamps `added_at` (social listening stamps `last_signal_at`).
+// A row whose run fails keeps its slot until someone looks (workspace health
+// reports failing runs).
+// Switched on 2026-11-24 (operator: "close the loops").
 export const tierAccounts = definePlay("tier_accounts", {
   name: "Account scoring: tier new candidates",
   description:
-    "Per-company ICP tiering of tam_candidates: the agent judges against context/icp/tiering-rubric.md, the play writes tier, rationale, evidence and stamp, and promotes in-scope companies to final_tam and TAM_MASTER_FINAL.",
+    "Per-company ICP tiering of new tam_candidates: the agent judges against context/icp/tiering-rubric.md, the play writes tier, rationale, evidence and stamp, and promotes in-scope companies to final_tam and TAM_MASTER_FINAL.",
   folder: playsFolder,
   model: tamCandidates,
   workflow: tierCandidate,
@@ -184,27 +192,23 @@ export const tierAccounts = definePlay("tier_accounts", {
     conjonction: "and",
     groups: [
       {
-        conjonction: "or",
+        conjonction: "and",
         conditions: [
+          { kind: "string", columnSlug: "status", operator: "isNull" },
           {
             kind: "date",
             columnSlug: "custom__account_tiered_at",
             operator: "isNull",
           },
-          {
-            kind: "date",
-            columnSlug: "custom__account_tiered_at",
-            operator: "lowerThan",
-            value: rescoreAfter,
-          },
         ],
       },
     ],
   },
-  isEnabled: false,
+  limit: dailyTierLimit,
+  isEnabled: true,
   runCreationRule: "noConcurrency",
   changeKinds: ["added"],
-  schedule: { type: "cron", cron: "15 * * * *" },
+  schedule: { type: "cron", cron: "15 9 * * *" },
 });
 
 // ---------------------------------------------------------------------------

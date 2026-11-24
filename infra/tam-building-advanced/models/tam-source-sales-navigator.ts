@@ -1,7 +1,6 @@
 import { defineModel } from "@cargo-ai/cdk";
 
 import { salesNavigator } from "../connectors/sales-navigator";
-import { sourceRefreshSchedule } from "../../tam-building/settings";
 import { modelsFolder } from "../folders";
 
 // The census: every company LinkedIn files under your filters. Rows come back
@@ -21,16 +20,15 @@ import { modelsFolder } from "../folders";
 // NO SCHEDULE, ON PURPOSE. Every sync re-bills every returned record. Re-run
 // it when you decide to refresh, and re-count the searches first: Sales
 // Navigator counts drift week to week.
-// REFRESHED ONCE EVERY TWO WEEKS, by operator decision (2026-11-24), only
-// while `refreshEnabled` in infra/tam-building/settings.ts is true. Each run
-// re-bills every returned record (see that file for the per-run cost).
+// LEFT OFF THE TWO-WEEKLY REFRESH (2026-11-24): one run re-bills about 549
+// credits, above the 100-credit ceiling for any one action. The other
+// sources refresh from infra/tam-building/settings.ts; this one does not.
 export const tamSourceSalesNavigator = defineModel(
   "tam_source_sales_navigator",
   {
     name: "TAM source: Sales Navigator",
     connector: salesNavigator,
     extractSlug: "fetchAccountSearch",
-    schedule: sourceRefreshSchedule,
     description:
       "TAM source 1 of 4: Sales Navigator account searches built from the ICP, each under the 1,000-account cap.",
     folder: modelsFolder,

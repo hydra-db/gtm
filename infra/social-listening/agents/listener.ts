@@ -4,7 +4,7 @@ import { listenerPrompt } from "./listener.prompt";
 // Connectors already declared in this project, reused: one slug declared
 // twice collides at deploy.
 import { anthropic } from "../../gtm-factory/agents/outreach-drafter";
-import { slack } from "../../gtm-factory/connectors";
+import { slack } from "../../shared/connectors/slack";
 import { linkedin } from "../../tam-building-advanced/connectors/linkedin";
 import { agentsFolder } from "../folders";
 import { linkedinPosts } from "../models/linkedin-posts";

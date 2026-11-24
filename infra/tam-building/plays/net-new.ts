@@ -10,7 +10,7 @@ import { tamCompanies as companyTamV1 } from "../../tam-building-advanced/models
 import { companyEnrich } from "../connectors/company-enrich";
 import { playsFolder } from "../folders";
 import { tamCompanies } from "../models/tam-companies";
-import { netNewAdvancedCron, netNewCron } from "../settings";
+import { netNewAdvancedCron, netNewCron, netNewLimit } from "../settings";
 
 // One company from a TAM source in; a tam_candidates row out, only when the
 // company is net new. account-scoring's `tier_accounts` tiers it from there.
@@ -213,6 +213,10 @@ const netNewCandidate = defineWorkflow(
   },
 );
 
+// Both plays tick daily, at most `netNewLimit` rows a tick (settings.ts), and
+// are switched on (2026-11-24): about 30 credits a day at most, usually far
+// less, since a known domain is skipped for free.
+//
 // tam-building's AI Ark pool: every company that arrives on a refresh.
 // `changeKinds: ["added"]` keeps it to companies new to the pool; the
 // workflow then drops the ones already known anywhere else.
@@ -234,7 +238,8 @@ export const tamNetNew = definePlay("tam_net_new_to_candidates", {
       },
     ],
   },
-  isEnabled: false,
+  limit: netNewLimit,
+  isEnabled: true,
   runCreationRule: "once",
   changeKinds: ["added"],
   schedule: { type: "cron", cron: netNewCron },
@@ -268,7 +273,8 @@ export const tamAdvancedNetNew = definePlay(
         },
       ],
     },
-    isEnabled: false,
+    limit: netNewLimit,
+    isEnabled: true,
     runCreationRule: "once",
     changeKinds: ["added"],
     schedule: { type: "cron", cron: netNewAdvancedCron },

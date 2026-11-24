@@ -1,18 +1,16 @@
 // The settings an operator changes without touching the agent.
 
-// TODO(operator): the findings channel. The plan was `#gtm-alerts`, and no
-// channel by that name exists in the Slack workspace (checked through the
-// Slack connector's listChannels autocomplete on 2026-11-24). Create it,
-// invite the Cargo app to it (getConversationHistory cannot read a channel the
-// app is not in), and put its id (C...) here, not its name. One constant locks
-// both the post and the read-back: the agent remembers what it already
-// reported by reading its own earlier posts there.
-export const healthChannelId = "TODO_GTM_ALERTS_CHANNEL_ID";
+// The findings channel: #sales (C0BJY52BUTZ), operator decision on
+// 2026-11-24. The plan was `#gtm-alerts`, which does not exist in the Slack
+// workspace. An id (C...), not a name. One constant locks both the post and
+// the read-back: the agent remembers what it already reported by reading its
+// own earlier posts there, and the Cargo app must be in the channel for that
+// read to work.
+export const healthChannelId = "C0BJY52BUTZ";
 
-// Off until the channel above is real and the operator says yes. While false,
-// the agent is deployed with no trigger, so it never runs on its own and bills
-// nothing. Set it to true to add the daily cron below.
-export const dailyRunEnabled = false;
+// Switched on 2026-11-24 (operator: "close the loops"). Set to false to drop
+// the daily cron; the agent stays deployed and never runs on its own.
+export const dailyRunEnabled = true;
 
 // 14:00 UTC: early morning in the Americas, afternoon in Europe, before most
 // teams' first review of the day.

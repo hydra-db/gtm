@@ -74,7 +74,7 @@ export const postRelevantVisitors = definePlay("post_relevant_visitors", {
       },
     ],
   },
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "noConcurrency",
   changeKinds: ["added"],
   schedule: { type: "cron", cron: "40 * * * *" },

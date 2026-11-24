@@ -8,8 +8,9 @@
 //     (gtm_social_listening_daily), which feeds companies into
 //     tam_candidates. This one only posts a digest for a human.
 //
-// Ships switched off. A Cargo agent has no enable flag and a model sync is a
-// paid search, so "off" means: no weekly schedule on linkedin_posts and no
-// cron trigger on the listener. Set this to true (after inviting the Cargo
-// bot to #sales) and the plan shows both being added.
-export const weeklyDigestEnabled = false;
+// Switched on 2026-11-24 (operator: "close the loops"). A Cargo agent has no
+// enable flag and a model sync is a paid search, so "off" means: no weekly
+// schedule on linkedin_posts and no cron trigger on the listener. Set this to
+// false and the plan shows both being removed. The Cargo bot must be in
+// #sales for the post to land.
+export const weeklyDigestEnabled = true;

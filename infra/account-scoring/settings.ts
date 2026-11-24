@@ -32,6 +32,10 @@
 // Write weeks as days: "1 week" is not a date unit the filter accepts.
 export const rescoreAfter = "6 months";
 
+// The most companies `tier_accounts` tiers in one day (it ticks once a day).
+// At 3 to 5 credits a company, 7 keeps the feed near 30 credits a day.
+export const dailyTierLimit = 7;
+
 // Where the tier goes besides the row. `none` writes only onto the Cargo model,
 // which is what this skill did before the setting existed, and declares no CRM
 // connector at all.
