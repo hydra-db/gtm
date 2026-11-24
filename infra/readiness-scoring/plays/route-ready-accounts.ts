@@ -1,17 +1,18 @@
 import { definePlay, defineWorkflow } from "@cargo-ai/cdk";
 import { z } from "zod";
 
-import { slack } from "../connectors/slack";
+import { slack } from "../../shared/connectors/slack";
 import { playsFolder } from "../folders";
 import { accounts } from "../models/accounts";
 
-// PLACEHOLDER: the Slack channel every ready account is posted to. A channel
-// id (C…), not a name: names collide, and the connector's autocomplete
-// resolves the id. Locked here so no run can post anywhere else.
-const slackChannelId = "PLACEHOLDER_SLACK_CHANNEL_ID";
+// The Slack channel every ready account is posted to: #sales, resolved to its
+// id through the Slack connector's autocomplete (listChannels) on 2026-11-24.
+// An id, not a name: names collide. Locked here so no run can post anywhere
+// else.
+const slackChannelId = "C0BJY52BUTZ";
 
-// One account that just crossed `readyThreshold`: one Slack message with the
-// score. Nothing is written to a CRM and nothing is sent to anyone at the
+// One working-list account that just crossed `readyThreshold`: one Slack
+// message with the score. Nothing is written to a CRM and nothing is sent to anyone at the
 // account; what happens after the ping is the team's, or a sequencer's on
 // `ready_now_accounts`.
 const routeReadyAccount = defineWorkflow(
@@ -43,7 +44,13 @@ const routeReadyAccount = defineWorkflow(
   },
 );
 
-// Routes every account that enters `ready_now`.
+// Routes every account on the working list that enters `ready_now`.
+//
+// THE FIT GATE. Only accounts with `on_working_list` = yes are posted: a
+// TAM_MASTER_FINAL company at Series B or later (funding_stage B+) that passed
+// the ICP gate (icp_status qualified) and is not in enterprise_parked. An
+// account outside the working list is never routed, however hot it is; it
+// still gets a score and a stage, and shows in the two segments.
 //
 // `changeKinds: ["added"]` is what makes an account posted once per climb.
 // Unify Accounts is rebuilt every hour, and the play diffs the filtered rows on
@@ -61,7 +68,7 @@ const routeReadyAccount = defineWorkflow(
 // rows that were ready while the play was off.
 export const routeReadyAccounts = definePlay("route_ready_accounts", {
   description:
-    "Posts each account whose decaying readiness score just crossed the ready line to Slack, with the score and the signals behind it.",
+    "Posts each working-list account whose decaying readiness score just crossed the ready line to #sales, with the score.",
   folder: playsFolder,
   model: accounts,
   workflow: routeReadyAccount,
@@ -76,6 +83,12 @@ export const routeReadyAccounts = definePlay("route_ready_accounts", {
             columnSlug: accounts.columns.computed__readiness_stage,
             operator: "is",
             values: ["ready_now"],
+          },
+          {
+            kind: "string",
+            columnSlug: accounts.columns.computed__on_working_list,
+            operator: "is",
+            values: ["yes"],
           },
         ],
       },

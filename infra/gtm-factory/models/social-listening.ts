@@ -2,11 +2,14 @@ import { defineModel } from "@cargo-ai/cdk";
 
 import { modelsFolder } from "../folders";
 
-type Row = { company_domain?: string | null };
+type Row = { company_domain?: string | null; posted_at?: string | null };
 
 // One row per public post that matched a listening keyword, with the company
-// of whoever posted it. Unified into Accounts on the company domain, so each
-// poster's company shows up as an account.
+// of whoever posted it. Unified as an ACCOUNT EVENT on the company domain,
+// dated when the post went up, so readiness-scoring weighs each post. It used
+// to unify as an account, which put every poster's company in Unify Accounts;
+// now a post reaches an account only when another model (TAM_MASTER_FINAL,
+// final_tam) holds the company. The rows here are unchanged.
 export const socialListening = defineModel("social_listening", {
   name: "social_listening",
   kind: "native",
@@ -42,11 +45,20 @@ export const socialListening = defineModel("social_listening", {
       expression: (record: Row) =>
         record.company_domain ? record.company_domain : null,
     },
+    {
+      kind: "computed",
+      slug: "event_at",
+      type: "date",
+      label: "Event at",
+      description: "When the post went up: the date of its Account Events row.",
+      expression: (record: Row) => (record.posted_at ? record.posted_at : null),
+    },
   ],
   unification: {
     source: "custom",
-    type: "account",
+    type: "accountEvent",
     uniqueColumns: [{ slug: "computed__match_domain", reference: "domain" }],
+    timeColumnSlug: "computed__event_at",
   },
   folder: modelsFolder,
 });

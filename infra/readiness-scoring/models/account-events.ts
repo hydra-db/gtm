@@ -10,9 +10,12 @@ const halfLives = Object.fromEntries(
 );
 
 // Unify Account Events: one row per event on an account, from every model that
-// unifies as an account event (the Cargo Signals feeds, a CRM's activities, a
-// product's usage events). A new feed reaches the score by unifying here, with
-// no edit to the score.
+// unifies as an account event: here job_post_signals, oss_signals,
+// social_listening and website_visitors. A new source reaches the score by
+// unifying here and getting a weight in settings.ts, with no edit to the score.
+//
+// It held no rows before this pipeline: none of those models unified as an
+// account event until this change.
 //
 // ADOPTED, NOT CREATED. Every workspace has this model; a deploy finds it by
 // its extractor and takes it over. It sets two things on it:

@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { linkedin } from "../connectors/linkedin";
 import { playsFolder } from "../folders";
-import { accounts } from "../models/accounts";
+import { accounts } from "../../readiness-scoring/models/accounts";
 import { tamCompanies } from "../models/tam-companies";
 import { tamSourceAiArk } from "../models/tam-source-ai-ark";
 import { tamSourceApollo } from "../models/tam-source-apollo";
