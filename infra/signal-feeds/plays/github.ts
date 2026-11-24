@@ -22,7 +22,11 @@ import {
 // looks each person up (Cargo's GitHub connector), and keeps only people whose
 // profile names a real company: a github_signals row, the company to the ICP
 // gate, and, on our own repos, a line in #visitors. Discussions are not read:
-// GitHub serves them only over its authenticated GraphQL API.
+// GitHub serves them only over its authenticated GraphQL API. Listing
+// stargazers needs an authenticated call too: until GITHUB_TOKEN is stored as
+// "Bearer <token>" that call fails and is skipped (continueOnFailure), so this
+// play reads issues and pull requests only, and our own repos' stars come from
+// plays/own-repo-stars.ts instead.
 const watchRepo = defineWorkflow(
   "signal_feeds_github_workflow",
   {
@@ -51,19 +55,19 @@ const watchRepo = defineWorkflow(
       url: span.repoUrl,
       method: "get",
       bodyFormat: "json",
-    } as { url: string; method: "get" });
+    } as { url: string; method: "get" }, { retry: 3, continueOnFailure: true });
     const starsPage = stargazersUrl({ repo: input.value, repoInfo });
     const stars = uses.githubApi.call({
       url: starsPage.url,
       method: "get",
       bodyFormat: "json",
       headers: [{ key: "Accept", value: "application/vnd.github.star+json" }],
-    } as { url: string; method: "get" });
+    } as { url: string; method: "get" }, { retry: 2, continueOnFailure: true });
     const issues = uses.githubApi.call({
       url: span.issuesUrl,
       method: "get",
       bodyFormat: "json",
-    } as { url: string; method: "get" });
+    } as { url: string; method: "get" }, { retry: 3, continueOnFailure: true });
     const picked = pickGithubPeople({
       stars,
       issues,
@@ -73,7 +77,10 @@ const watchRepo = defineWorkflow(
     });
 
     for (const person of picked.people as unknown as Iterable<(typeof picked.people)[number]>) {
-      const user = uses.github.getUser({ userName: person.login });
+      const user = uses.github.getUser(
+        { userName: person.login },
+        { retry: 2, continueOnFailure: true },
+      );
       const employer = resolveGithubEmployer({ user });
       if (employer.known) {
         model.upsert({
@@ -146,9 +153,7 @@ export const githubEvery12h = definePlay("signal_feeds_github_12h", {
     ],
   },
   schedule: { type: "cron", cron: "37 2,14 * * *" },
-  // Ships off: switched on by the next pull request, once its model exists
-  // and Cargo's merge preview can count the records it will run on.
-  isEnabled: false,
+  isEnabled: true,
   runCreationRule: "always",
   changeKinds: ["added", "updated", "unchanged"],
 });
