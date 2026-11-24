@@ -13,9 +13,9 @@ import { modelsFolder } from "../folders";
 // `lookalikeDomains` included, and is free. See references/configure.md.
 //
 // NO SCHEDULE, ON PURPOSE: every sync re-bills every returned record.
-// REFRESHED ONCE EVERY TWO WEEKS, by operator decision (2026-11-24), only
-// while `refreshEnabled` in infra/tam-building/settings.ts is true. Each run
-// re-bills every returned record (see that file for the per-run cost).
+// The two-weekly refresh asked for on 2026-11-24 cannot be a schedule here:
+// this extractor is one-shot and takes no cron (infra/tam-building/settings.ts).
+// Re-sync by hand; each run re-bills every returned record.
 export const tamSourceAiArk = defineModel("tam_source_ai_ark", {
   name: "TAM source: AI Ark",
   connector: aiArk,
