@@ -15,6 +15,7 @@ import {
   outOfScopeCategories,
   unknownCategory,
 } from "../settings";
+import { profileCron } from "../../tam-building/settings";
 
 // A model's uuid inside a play filter. The deploy resolves model handles
 // anywhere in a spec, but the play filter's type predates handles, so the
@@ -277,4 +278,7 @@ export const profileCompanies = definePlay("tam_profile_companies", {
   isEnabled: false,
   runCreationRule: "once",
   changeKinds: ["added"],
+  // Every two weeks, two hours after the sources refresh (operator decision,
+  // 2026-11-24). Stays disabled until the refresh is approved.
+  schedule: { type: "cron", cron: profileCron },
 });

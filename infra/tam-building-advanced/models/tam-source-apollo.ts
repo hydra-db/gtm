@@ -1,6 +1,7 @@
 import { defineModel } from "@cargo-ai/cdk";
 
 import { apollo } from "../connectors/apollo";
+import { sourceRefreshSchedule } from "../../tam-building/settings";
 import { modelsFolder } from "../folders";
 
 // The second census: Apollo's own database, searched with the same brief as
@@ -13,10 +14,14 @@ import { modelsFolder } from "../folders";
 // profile play. Size the pool with a small `limit` first; there is no free count.
 //
 // NO SCHEDULE, ON PURPOSE: every sync re-bills every returned record.
+// REFRESHED ONCE EVERY TWO WEEKS, by operator decision (2026-11-24), only
+// while `refreshEnabled` in infra/tam-building/settings.ts is true. Each run
+// re-bills every returned record (see that file for the per-run cost).
 export const tamSourceApollo = defineModel("tam_source_apollo", {
   name: "TAM source: Apollo",
   connector: apollo,
   extractSlug: "fetchOrganizations",
+  schedule: sourceRefreshSchedule,
   description:
     "TAM source 3 of 4: Apollo organizations for the same brief, the second census.",
   folder: modelsFolder,
