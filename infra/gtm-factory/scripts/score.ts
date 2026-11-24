@@ -4,7 +4,9 @@ import { bare } from "./hosts";
 
 // Turns the research answers into the ICP verdict. Rules, all from
 // context/icp/hydradb.md:
-//   disqualified  a disqualifier applies (vendor, RAG-only, lookup agent, services)
+//   disqualified  a disqualifier applies (memory/graph vendor, RAG-only, lookup
+//                 agent, services). Agent-framework and LLM-infra vendors are
+//                 not disqualified: they pass if their own agents qualify.
 //   not_fit       a must-have is missing: agents that act, across systems, and
 //                 either learning from past decisions or a graph/memory signal
 //   outside_us    headquartered outside the US and under 500 people
@@ -91,7 +93,14 @@ export const scoreCompany = defineScript(
           ? Number(employeeHint)
           : 0;
     const country = text(answers.hq_country).toUpperCase();
-    const disqualifier = text(answers.disqualifier) || "none";
+    // Agent-framework and LLM-infrastructure vendors are in scope when their
+    // own agents act across customers' systems (operator, 2026-11-24), so that
+    // answer no longer disqualifies; the must-haves below still apply.
+    const rawDisqualifier = text(answers.disqualifier) || "none";
+    const disqualifier =
+      rawDisqualifier === "agent_framework_or_llm_infrastructure_vendor"
+        ? "none"
+        : rawDisqualifier;
     const bayArea = yes("hq_bay_area");
     const graph = yes("graph_or_memory_signal");
     const learns = yes("learns_from_past_decisions");
