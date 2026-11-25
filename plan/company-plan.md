@@ -1,25 +1,23 @@
 ---
 title: Company plan
-description: Reach $25M ARR by 2027-12-31, through $500K, $1M and $5M ARR milestones, with signal-led cold outreach as the first source of deals.
+description: Reach $25M ARR by 2027-12-31, via $500K by 2026-12-31 and $5M by 2027-02-28, closing one customer every week.
 period: 2026-11-24 to 2027-12-31
 status: active
 owner: Nishkarsh
 ---
 
-_Status: proposed, owner: Nishkarsh. Written on 2026-11-24 from what is
-already true in the repo and the workspace. No number below is a commitment
-until the owner fills it in and moves this file out of `proposed`._
-
 ## The one goal
 
-Reach $25M ARR by 2027-12-31. Starting ARR on 2026-11-24: TODO(owner).
+Reach $25M ARR by 2027-12-31.
 
 | By | ARR |
 | --- | --- |
-| 2026-11-30 | $500K |
-| 2027-01-31 | $1M |
-| 2027-03-31 | $5M |
+| 2026-12-31 | $500K |
+| 2027-02-28 | $5M |
 | 2027-12-31 | $25M |
+
+Weekly pace: close one new customer every week
+(`initiatives/close-one-customer-a-week.md`).
 
 What is known today:
 
@@ -32,8 +30,8 @@ What is known today:
   Qualified, Not now, Not interested). A Qualified reply becomes a Deal at
   Prospecting. Not now and Not interested go to the Community & events list.
 
-_ARR targets set by the owner on 2026-11-24. Deal value and win-rate targets
-are still the owner's to write._
+_Targets set by the owner on 2026-11-24 and revised the same day. More detail
+will be added as it is learned._
 
 ## The forecast
 
