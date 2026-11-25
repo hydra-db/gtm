@@ -30,13 +30,12 @@ export const theirStack = defineConnector("their_stack", {
   default: true,
 });
 
-// The GitHub REST API (repos, stargazers, issues), with the workspace's
-// GITHUB_TOKEN as the Authorization header. GitHub needs "Bearer <token>" (or
-// "token <token>") there: a bare token is ignored and the calls run
-// unauthenticated, which still works for these public endpoints at 60 calls an
-// hour. The rate limit keeps one 12-hour sweep (about 70 calls) inside that, so
-// the feed runs either way; storing the variable as "Bearer <token>" makes it
-// authenticated with no change here.
+// The GitHub REST and GraphQL APIs (repos, stargazers, issues, discussions),
+// with the workspace's GITHUB_TOKEN as the Authorization header, stored as
+// "Bearer <token>": authenticated, 5,000 calls an hour. GraphQL (discussions)
+// and stargazer listings fail without it. One 12-hour sweep is three calls a
+// repo (about 100 for 34 repos); the limit below spreads it over about ten
+// minutes, well inside GitHub's.
 export const githubApi = defineConnector("github_api", {
   integration: "http",
   name: "GitHub REST API",
@@ -52,5 +51,5 @@ export const githubApi = defineConnector("github_api", {
       { key: "User-Agent", type: "public", value: "hydradb-gtm-signal-feeds" },
     ],
   },
-  rateLimit: { unit: "hour", max: 50, strategy: "spread" },
+  rateLimit: { unit: "hour", max: 600, strategy: "spread" },
 });

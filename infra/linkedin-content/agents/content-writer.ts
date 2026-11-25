@@ -29,9 +29,11 @@ import { agentsFolder } from "../folders";
 // the state's directory and production branch. `cargo-ai project check` prints
 // the binding; a project whose state is not connected deploys this agent
 // unbound, with an empty sandbox.
-// slack-heads-up adaptation: one DM to the author per run, after the pull
-// request is open. A Slack user ID as channelId posts a DM from the app.
-const AUTHOR_SLACK_USER_ID = "U04AKFHKULS"; // Nishkarsh Srivastava
+// slack-heads-up adaptation: one message per run, after the pull request is
+// open, to #my-agents (private). The id was resolved through the Slack
+// connector's autocomplete (listChannels) on 2026-11-25, and the Cargo app is
+// a member of the channel. An id, not a name: names collide.
+const HEADS_UP_CHANNEL_ID = "C0CA9GSMQJV"; // #my-agents
 
 export const contentWriter = defineAgent("linkedin_content_writer", {
   name: "LinkedIn content writer",
@@ -59,7 +61,7 @@ export const contentWriter = defineAgent("linkedin_content_writer", {
     {
       ref: slack.actions.postMessage,
       config: {
-        channelId: AUTHOR_SLACK_USER_ID,
+        channelId: HEADS_UP_CHANNEL_ID,
         format: "markdown",
         disableUnfurling: true,
       },
