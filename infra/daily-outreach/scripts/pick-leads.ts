@@ -6,9 +6,12 @@ import { defineScript } from "@cargo-ai/cdk";
 // first). For each account, in that order: its final_tam_contacts whose email
 // is valid in email_checks, who are not in do_not_contact (by domain, email or
 // LinkedIn URL) and not in the outreach_enrollments ledger, with an
-// engineering or AI leadership title, best title first. An account with no
-// account event in the last `signalMaxAgeDays` days is skipped: there is
-// nothing to open with. Stops at `cap` people.
+// engineering or AI leadership title, best title first. The person whose own
+// move is the signal (role `signal`, from new-hire-detection) comes before
+// everyone else at the account, and opens with their own new-hire event; a
+// signal person's title is drafted unless it is excluded outright. An
+// account with no account event in the last `signalMaxAgeDays` days is
+// skipped: there is nothing to open with. Stops at `cap` people.
 
 type Row = Record<string, unknown>;
 
@@ -149,6 +152,16 @@ const signalOf = (event: Row) => {
         date: text(p.published_at).slice(0, 10) || date,
         quote: clip(p.title, 300),
       };
+    case "new_hire_signals":
+      return {
+        type: "new_hire",
+        summary: `${text(p.person_name)} just started as ${text(p.title)} at ${text(p.company)}`,
+        url: text(p.linkedin_url),
+        // When we saw the new role (the event date): the start is known only
+        // to the month, so it is not the date the opener cites.
+        date,
+        quote: text(p.title),
+      };
     case "linkedin_engagement_signals":
     case "job_switch_signals":
       return {
@@ -234,6 +247,18 @@ export const pickLeads = defineScript(
       if (!current || at > currentAt) freshest[id] = event;
     }
 
+    // Each new hire's own event, by LinkedIn URL, so a signal person opens
+    // with their own move rather than the account's latest event.
+    const newHireEvent: Record<string, Row> = {};
+    for (const event of list(events)) {
+      if (text(event.model_slug) !== "new_hire_signals") continue;
+      const at = new Date(text(event.occurred_at)).getTime();
+      if (!at || at < cutoff) continue;
+      const p = (event.properties || {}) as Row;
+      const li = linkedinKey(p.linkedin_url);
+      if (li && !newHireEvent[li]) newHireEvent[li] = event;
+    }
+
     const companyByDomain: Record<string, Row> = {};
     for (const row of list(companies)) companyByDomain[lower(row.domain)] = row;
     const ycByLinkedin: Record<string, Row> = {};
@@ -259,14 +284,23 @@ export const pickLeads = defineScript(
         skipped.noSignal += people.length;
         continue;
       }
-      const signal = signalOf(event);
       const company = companyByDomain[domain] || {};
       const ranked = people
-        .map((person) => ({ person, rank: titleRank(text(person.title)) }))
+        .map((person) => {
+          const isSignal = lower(person.role) === "signal";
+          const rank = titleRank(text(person.title));
+          // A signal person is ranked ahead of every title (-1 is "not
+          // drafted", so they sort as -0.5), unless the title is excluded.
+          return {
+            person,
+            isSignal,
+            rank: isSignal && !EXCLUDED.test(text(person.title)) ? -0.5 : rank,
+          };
+        })
         .filter((entry) => {
           const email = lower(entry.person.email);
           const li = linkedinKey(entry.person.linkedin_url);
-          if (entry.rank < 0) { skipped.title += 1; return false; }
+          if (entry.rank === -1) { skipped.title += 1; return false; }
           if (!email || !valid[email]) { skipped.invalidEmail += 1; return false; }
           if (blocked.email[email] || (li && blocked.linkedin[li])) { skipped.doNotContact += 1; return false; }
           if (enrolled[email] || (li && enrolled[li])) { skipped.enrolled += 1; return false; }
@@ -281,6 +315,8 @@ export const pickLeads = defineScript(
         if (seen[email]) continue;
         seen[email] = true;
         perAccount[domain] = (perAccount[domain] || 0) + 1;
+        const ownEvent = entry.isSignal ? newHireEvent[linkedinKey(person.linkedin_url)] : undefined;
+        const signal = signalOf(ownEvent || event);
         const name = cleanName(text(person.full_name), text(person.first_name), text(person.last_name));
         const ycRow = ycByLinkedin[linkedinKey(person.linkedin_url)] || {};
         const isYc = ["yes", "true", "1"].includes(lower(ycRow.is_yc));
