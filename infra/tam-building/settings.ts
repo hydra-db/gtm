@@ -12,10 +12,10 @@
 //     skipped before anything is enriched. account-scoring's tier_accounts
 //     then tiers them.
 //   - Enrichment is a waterfall: the source row first (free), then AI Ark
-//     (0.01), CompanyEnrich (0.25), LinkedIn (0.5). Clay was to be the last
-//     fallback, but this workspace has no Clay connector, and Cargo's Clay
-//     integration has no company enrichment action (only runRoutine,
-//     searchCompanies, searchPeople), so the waterfall ends at LinkedIn.
+//     (0.01), CompanyEnrich (0.25), LinkedIn (0.5), then Clay last
+//     (2026-11-25: `searchCompanies` on the domain through HydraDB's own Clay
+//     key, 0 Cargo credits; the integration lists no routines, so
+//     runRoutine is not used).
 //   - Reuses tam-building-advanced's AI Ark connector; the cookbook's copy is
 //     deleted.
 //
