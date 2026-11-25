@@ -18,7 +18,8 @@ const DISCUSSIONS_QUERY = `query($owner: String!, $name: String!) {
   }
 }`;
 
-// The window and the GitHub REST and GraphQL calls for one watched repo.
+// The window and the GitHub REST (issues) and GraphQL (discussions) calls for
+// one watched repo.
 export const githubWindow = defineScript(
   async ({ repo, hours }: { repo: string; hours: number }) => {
     const since = new Date(Date.now() - hours * 3600000).toISOString();
@@ -26,7 +27,6 @@ export const githubWindow = defineScript(
     const [owner, name] = path.split("/");
     return {
       since,
-      repoUrl: `https://api.github.com/repos/${path}`,
       issuesUrl:
         `https://api.github.com/repos/${path}/issues` +
         `?state=all&sort=created&direction=desc&per_page=50&since=${encodeURIComponent(since)}`,

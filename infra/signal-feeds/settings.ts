@@ -19,11 +19,15 @@ export const blogResultsPerKeyword = 4;
 export const blogLookbackDays = 2;
 
 // GitHub, every 12 hours: one run per `signal_feed_inputs` row whose feed is
-// github (the watched repos below, seeded into that model). Repo, stargazer
-// and issue calls go to the GitHub REST API through the github_api connector,
-// profile lookups through Cargo's GitHub connector: 0 credits either way.
+// github (the watched repos below, seeded into that model). Issue calls go to
+// the GitHub REST API and discussion and star calls to its GraphQL API, all
+// through the github_api connector, profile lookups through Cargo's GitHub
+// connector: 0 credits either way. Stars are their own play
+// (plays/github-stars.ts), capped per watched repo; our own repos keep every
+// star.
 export const githubWindowHours = 12;
 export const maxGithubPeoplePerRepo = 15;
+export const maxGithubStarsPerRepo = 15;
 // Our own repos: every new person at a real company is also posted to
 // #visitors. Resolved to its id through the Slack connector on 2026-11-24.
 export const visitorsChannelId = "C0CMJ11QKTJ";

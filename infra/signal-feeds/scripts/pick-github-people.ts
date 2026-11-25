@@ -1,6 +1,5 @@
 import { defineScript } from "@cargo-ai/cdk";
 
-type Star = { starred_at?: string; user?: { login?: string; type?: string } };
 type Issue = {
   number?: number;
   html_url?: string;
@@ -18,18 +17,16 @@ type Discussion = {
 };
 
 // Who acted on the repo inside the window: issue and pull request authors,
-// then discussion authors and commenters, then new stargazers. Bots are
-// dropped, one entry per person (the first action found wins).
+// then discussion authors and commenters (stars are plays/github-stars.ts).
+// Bots are dropped, one entry per person (the first action found wins).
 export const pickGithubPeople = defineScript(
   async ({
-    stars,
     issues,
     discussions,
     since,
     repo,
     maxPeople,
   }: {
-    stars: unknown;
     issues: unknown;
     discussions?: unknown;
     since: string;
@@ -110,22 +107,6 @@ export const pickGithubPeople = defineScript(
             key: `${repo}:discussion_comment:${thread.number}:${comment.author?.login}`,
           });
         }
-      }
-    }
-    for (const star of Array.isArray(stars) ? (stars as Star[]) : []) {
-      if (
-        star &&
-        isPerson(star.user) &&
-        star.starred_at &&
-        new Date(star.starred_at).getTime() >= from
-      ) {
-        people.push({
-          login: String(star.user?.login),
-          action: "star",
-          url: `https://github.com/${repo}`,
-          occurred_at: String(star.starred_at),
-          key: `${repo}:star:${star.user?.login}`,
-        });
       }
     }
     const seen: Record<string, boolean> = {};

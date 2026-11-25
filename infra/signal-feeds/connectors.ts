@@ -30,12 +30,13 @@ export const theirStack = defineConnector("their_stack", {
   default: true,
 });
 
-// The GitHub REST and GraphQL APIs (repos, stargazers, issues, discussions),
-// with the workspace's GITHUB_TOKEN as the Authorization header, stored as
-// "Bearer <token>": authenticated, 5,000 calls an hour. GraphQL (discussions)
-// and stargazer listings fail without it. One 12-hour sweep is three calls a
-// repo (about 100 for 34 repos); the limit below spreads it over about ten
-// minutes, well inside GitHub's.
+// The GitHub REST and GraphQL APIs (issues over REST; discussions and
+// stargazers over GraphQL, since GitHub closed the REST stargazer listing to
+// our token in June 2026), with the workspace's GITHUB_TOKEN as the
+// Authorization header, stored as "Bearer <token>": authenticated, 5,000
+// calls an hour. GraphQL fails without it. One 12-hour sweep is three calls a
+// repo (about 100 for 34 repos) across the GitHub and GitHub stars plays; the
+// limit below spreads it over about ten minutes, well inside GitHub's.
 export const githubApi = defineConnector("github_api", {
   integration: "http",
   name: "GitHub REST API",
