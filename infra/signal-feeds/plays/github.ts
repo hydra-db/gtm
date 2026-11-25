@@ -127,8 +127,8 @@ export const watchRepo = defineWorkflow(
 
 // Every watched repo (signal_feed_inputs rows with feed "github") at 02:37 and
 // 14:37 UTC. 0 credits: GitHub's REST API and Cargo's GitHub connector are
-// free; the github_api connector's rate limit (50 calls an hour, spread)
-// stretches one sweep of three calls a repo over about two hours.
+// free; the github_api connector's rate limit (600 calls an hour, spread)
+// stretches one sweep of three calls a repo over about ten minutes.
 export const githubEvery12h = definePlay("signal_feeds_github_12h", {
   name: "Signal feeds: GitHub repos, every 12 hours",
   description:
