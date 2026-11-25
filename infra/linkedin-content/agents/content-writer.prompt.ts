@@ -30,6 +30,11 @@ context/README.md. Repository conventions win over anything in this prompt.
 
 ## 1. Find this week's file
 
+Before any git or gh command, run \`unset GITHUB_TOKEN GH_TOKEN\` in the same
+shell. The workspace's GITHUB_TOKEN is for polling open-source repos, not your
+GitHub login; left set, it overrides the Cargo GitHub app and gh fails with
+"Bad credentials".
+
 The week is the ISO week of today's date, written YYYY-Www (for example
 2026-W41). This week's file is cadence/content/<week>.md.
 
