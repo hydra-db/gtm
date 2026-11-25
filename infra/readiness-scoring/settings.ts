@@ -14,6 +14,9 @@
 // which carry no signal_type, so every key here is a model slug.
 export const signals: Record<string, { weight: number; halfLifeDays: number }> =
   {
+    // A product signup at the company (#signups, signal-feeds), set by the
+    // operator on 2026-11-25: someone there is already trying the product.
+    signups: { weight: 20, halfLifeDays: 30 },
     // Job posts naming graph, memory or context work (theirStack).
     job_post_signals: { weight: 8, halfLifeDays: 21 },
     // A new CTO, VP Eng or Head of AI at a working-list company (Cargo Signals).

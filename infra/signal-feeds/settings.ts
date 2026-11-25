@@ -138,3 +138,36 @@ export const decisionMakerTitles = [
 ];
 // #sales, where each job switch at a working-list company is posted.
 export const salesChannelId = "C0BJY52BUTZ";
+
+// Product signups, read from the Slack channel #signups (the product's signup
+// bot posts one message per signup there), every 12 hours. Resolved to its id
+// through the Slack connector on 2026-11-25. The Cargo Slack app must be a
+// member of the channel to read it (`/invite @Cargo` in #signups).
+export const signupsChannelId = "C0AJMNLHYCW";
+// Each read covers the last 13 hours, so two 12-hour reads overlap by an hour
+// and a late or retried run loses nothing. A signup is keyed on its email, so
+// the overlap writes nothing twice. One read is at most `signupsReadLimit`
+// messages (about 10 signups a day today).
+export const signupsLookbackHours = 13;
+export const signupsReadLimit = 200;
+export const signupsFeedCron = "23 1,13 * * *";
+// Routing (plays/signups.ts) runs 30 minutes after each read, and only on a
+// signup newer than `signupsRouteMaxAgeHours`: the 30-day backfill lands
+// every older signup in the model without posting it to #sales.
+export const signupsRouteCron = "53 1,13 * * *";
+export const signupsRouteMaxAgeHours = 48;
+// Mail providers: a signup from one keeps its row, with an empty domain, so it
+// is never unified onto a company that is really gmail.com.
+export const personalEmailDomains = [
+  "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com",
+  "msn.com", "yahoo.com", "ymail.com", "icloud.com", "me.com", "mac.com",
+  "proton.me", "protonmail.com", "pm.me", "aol.com", "gmx.com", "gmx.de",
+  "yandex.ru", "yandex.com", "mail.ru", "qq.com", "163.com", "126.com",
+  "zoho.com", "hey.com", "fastmail.com", "tutanota.com",
+];
+// Signups the routing never posts or scores: our own team, and the signup
+// probes our tests create (fldubai.com addresses).
+export const ignoredSignupDomains = ["hydradb.com", "hydradb.app", "fldubai.com"];
+// The lemlist campaign the outreach runs through: a signup who is a lead in it
+// is stopped there, since they came in on their own.
+export const outreachLemlistCampaignId = "cam_pLeqyyA2YFqfR8Efp";
