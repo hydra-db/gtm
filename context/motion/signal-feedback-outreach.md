@@ -57,3 +57,11 @@ Nishkarsh Srivastava (founder).
 - `infra/gtm-factory/agents/outreach-drafter.ts`: the Outreach drafter agent
   (drafts only, YC-aware). A person approves every message in lemlist.
 - `evals/outreach-drafter/`: the regression suite for its prompt.
+- `infra/daily-outreach/`: the daily run (weekdays 16:13 UTC, 08:13 PST). Up
+  to 30 people a day at working-list accounts in `ready_now`, then `warming`,
+  with a valid email, not in `do_not_contact` and not yet in the
+  `outreach_enrollments` ledger; the account's freshest event of the last 30
+  days is the signal. Each is drafted by the Outreach drafter, written to the
+  ledger, and added to the lemlist campaign in `settings.ts`
+  (`lemlistCampaignId`) once it is set. Senders alternate between Nishkarsh and
+  Thomas.
