@@ -19,9 +19,10 @@ export const blogResultsPerKeyword = 4;
 export const blogLookbackDays = 2;
 
 // GitHub, every 12 hours: one run per `signal_feed_inputs` row whose feed is
-// github (the watched repos below, seeded into that model). Repo, stargazer
-// and issue calls go to the GitHub REST API through the github_api connector,
-// profile lookups through Cargo's GitHub connector: 0 credits either way.
+// github (the watched repos below, seeded into that model). Issue and
+// discussion calls go to the GitHub REST and GraphQL APIs through the
+// github_api connector, profile lookups through Cargo's GitHub connector:
+// 0 credits either way.
 export const githubWindowHours = 12;
 export const maxGithubPeoplePerRepo = 15;
 // Our own repos: every new person at a real company is also posted to

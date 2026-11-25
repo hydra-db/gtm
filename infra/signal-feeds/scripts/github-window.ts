@@ -26,7 +26,6 @@ export const githubWindow = defineScript(
     const [owner, name] = path.split("/");
     return {
       since,
-      repoUrl: `https://api.github.com/repos/${path}`,
       issuesUrl:
         `https://api.github.com/repos/${path}/issues` +
         `?state=all&sort=created&direction=desc&per_page=50&since=${encodeURIComponent(since)}`,
