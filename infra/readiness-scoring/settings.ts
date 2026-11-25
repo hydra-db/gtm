@@ -21,6 +21,10 @@ export const signals: Record<string, { weight: number; halfLifeDays: number }> =
     job_post_signals: { weight: 8, halfLifeDays: 21 },
     // A new CTO, VP Eng or Head of AI at a working-list company (Cargo Signals).
     job_switch_signals: { weight: 7, halfLifeDays: 30 },
+    // A US person who just started a context graph, knowledge graph, ontology
+    // or agent memory role (new-hire-detection, Sales Navigator), dated when
+    // the role started.
+    new_hire_signals: { weight: 7, halfLifeDays: 30 },
     // GitHub activity on watched repos: Dayly's feed, then signal-feeds' own.
     oss_signals: { weight: 5, halfLifeDays: 14 },
     github_signals: { weight: 5, halfLifeDays: 14 },
