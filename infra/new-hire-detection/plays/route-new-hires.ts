@@ -29,8 +29,9 @@ const findWorkEmail = toolRef<{ email?: string }>("a045fc36-9e79-40f7-9f06-2330c
 //                                     the company to tam_candidates for the
 //                                     account-scoring tier, the person to
 //                                     final_tam_contacts as role `signal`, a
-//                                     work email found (0.5 to 3) and verified
-//                                     into email_checks (0.1)
+//                                     work email found (0.5 to 3), kept only
+//                                     when it is on the account's domain, and
+//                                     verified into email_checks (0.1)
 //
 // Nothing is posted and nothing is sent. Daily outreach drafts for the
 // person once the account is on the working list and their email is valid.
@@ -137,7 +138,7 @@ const routeNewHire = defineWorkflow(
     });
 
     const found = uses.findWorkEmail({ linkedinUrl: lead.linkedin_url });
-    const email = foundEmail({ email: found.email });
+    const email = foundEmail({ email: found.email, domain: company.domain });
     model.upsert({
       modelUuid: finalTamContacts.uuid,
       matchingColumnSlug: "key",
