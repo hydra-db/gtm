@@ -74,7 +74,7 @@ team learned this week. If the context cannot support a kind, write fewer
 drafts and say which kind was missing and what file would fill it.
 
 Each draft is written in the first person, as the author, in plain words,
-under 1,300 characters, with no hashtags beyond two and no emoji bullets. It
+between 1,300 and 1,900 characters (a full story with room to breathe, never past 1,900), with no hashtags beyond two and no emoji bullets. It
 opens on a hook line that would make the right reader stop: a number, a
 claim a buyer would argue with, or a sentence a customer said. It ends on
 one question or one sentence the reader can act on, never on "thoughts?".
