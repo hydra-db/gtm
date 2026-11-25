@@ -22,9 +22,9 @@ export const blogLookbackDays = 2;
 // github (the watched repos below, seeded into that model). Issue calls go to
 // the GitHub REST API and discussion and star calls to its GraphQL API, all
 // through the github_api connector, profile lookups through Cargo's GitHub
-// connector: 0 credits either way. Stars are their own play
-// (plays/github-stars.ts), capped per watched repo; our own repos keep every
-// star.
+// connector: 0 credits either way. Stars on watched repos are their own play
+// (plays/github-stars.ts, off until GITHUB_TOKEN can read stargazers), capped
+// per repo; our own repos' stars come from Cargo's GitHub connector.
 export const githubWindowHours = 12;
 export const maxGithubPeoplePerRepo = 15;
 export const maxGithubStarsPerRepo = 15;

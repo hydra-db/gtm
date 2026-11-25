@@ -12,19 +12,17 @@ type Edge = {
 
 // The stars inside the window from the GraphQL body
 // (data.repository.stargazers.edges), newest first, bots dropped, at most
-// maxStars (our own repos keep all of them). A failed call or an errors-only body reads as no stars.
+// maxStars. A failed call or an errors-only body reads as no stars.
 export const pickStars = defineScript(
   async ({
     response,
     since,
     repo,
-    kind,
     maxStars,
   }: {
     response: unknown;
     since: string;
     repo: string;
-    kind?: string;
     maxStars: number;
   }) => {
     const from = new Date(since).getTime();
@@ -60,7 +58,6 @@ export const pickStars = defineScript(
       }
     }
     stars.reverse();
-    const cap = kind === "own" ? stars.length : maxStars;
-    return { stars: stars.slice(0, cap), found: stars.length };
+    return { stars: stars.slice(0, maxStars), found: stars.length };
   },
 );

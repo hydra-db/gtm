@@ -2,11 +2,12 @@ import { defineModel } from "@cargo-ai/cdk";
 
 import { modelsFolder } from "../../gtm-factory/folders";
 
-// Every new star on a watched repo, read every 12 hours over GitHub's GraphQL
-// API by plays/github-stars.ts (one row per repo and person, whatever their
-// profile says). GitHub restricted the REST stargazer listing to admins and
-// collaborators in June 2026 and refuses fine-grained tokens there, so stars
-// are read only here. plays/own-repo-stars.ts runs on the rows of our own repos.
+// Every new star on a watched (primitive) repo, read every 12 hours over
+// GitHub's GraphQL API by plays/github-stars.ts (one row per repo and person,
+// whatever their profile says). GitHub restricted the REST stargazer listing
+// to admins and collaborators in June 2026 and refuses fine-grained tokens
+// there. Empty while that play is off (it needs a classic PAT or a GitHub App
+// token).
 export const githubStars = defineModel("github_stars", {
   name: "github_stars",
   kind: "native",
