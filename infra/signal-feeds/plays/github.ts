@@ -18,7 +18,7 @@ import { githubWindowHours, maxGithubPeoplePerRepo } from "../settings";
 // comments), looks each person up (Cargo's GitHub connector), and keeps only
 // people whose profile names a real company: a github_signals row and the
 // company to the ICP gate (plays/post-own-repo-people.ts posts our own repos'
-// to #visitors). Stars are not read: too low-signal (operator, 2026-11-25).
+// to #signups-and-relevant-visitors). Stars are not read: too low-signal (operator, 2026-11-25).
 // Discussions need an authenticated call: if GITHUB_TOKEN ever stops being
 // sent as "Bearer <token>", that call fails and is skipped (continueOnFailure)
 // and the run reads issues and pull requests only. `hours` overrides the window for a test run; the play never sets it.

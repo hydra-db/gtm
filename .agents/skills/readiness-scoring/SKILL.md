@@ -276,7 +276,8 @@ Adapted for HydraDB on 2026-11-24. Plan only: nothing deployed, nothing run, pla
   column `status` (tier from companies_list_v0) is carried over. Its schedule moves from every 12h to
   hourly at :10; Account Events from every 12h to hourly at :00.
 - **Slack:** the live connector (a6d37dd6) is declared once in `infra/shared/connectors/slack.ts` and
-  imported. Channel `#sales`, id `C0BJY52BUTZ`, from the connector's `listChannels` autocomplete.
+  imported. Channel `#gtm-engine`, id `C0CLP38UH8S`, from the connector's `listChannels` autocomplete
+  (moved from `#sales` on 2026-11-25).
 - **Eval adapted:** `evals/contract.mjs` no longer imports the deleted feeds file, allows zero Cargo
   Signals feeds (any feed added later is still held to the watchlist rules), and accepts the fit-gate
   condition beside the single `readiness_stage = ready_now` condition (never the raw score).

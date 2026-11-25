@@ -7,11 +7,11 @@ import { slack } from "../../shared/connectors/slack";
 import { newDecisionMakers } from "../models/cargo-signals";
 import { jobSwitchSignals } from "../models/job-switch-signals";
 import { readSignalLead } from "../scripts/signal-lead";
-import { salesChannelId } from "../settings";
+import { gtmEngineChannelId } from "../settings";
 
 // One new decision-maker at a working-list company: a job_switch_signals row,
 // the company to the ICP gate (already scored companies keep their verdict),
-// and one line in #sales. Every lead here is a fit by construction: the feed
+// and one line in #gtm-engine. Every lead here is a fit by construction: the feed
 // watches only the working list and only decision-maker titles.
 const routeJobSwitch = defineWorkflow(
   "signal_feeds_job_switch_workflow",
@@ -27,7 +27,7 @@ const routeJobSwitch = defineWorkflow(
     }),
     output: z.object({ result: z.string() }),
     uses: { slack },
-    imports: { jobSwitchSignals, tamCandidates, readSignalLead, salesChannelId },
+    imports: { jobSwitchSignals, tamCandidates, readSignalLead, gtmEngineChannelId },
   },
   ({ input, uses, model }) => {
     const lead = readSignalLead({
@@ -72,7 +72,7 @@ const routeJobSwitch = defineWorkflow(
       });
     }
     uses.slack.postMessage({
-      channelId: salesChannelId,
+      channelId: gtmEngineChannelId,
       format: "markdown",
       disableUnfurling: true,
       body: `*New decision-maker at ${lead.company_name}*: ${lead.person_name}, ${lead.person_title}\n${lead.person_url}\n${lead.detail}\nOn the working list. A new CTO, VP Eng or Head of AI re-evaluates the stack in their first 90 days.`,
@@ -84,9 +84,9 @@ const routeJobSwitch = defineWorkflow(
 // Each new lead the job-switch feed delivers, every hour at :33. The play
 // costs nothing; the feed bills when it delivers (settings.ts).
 export const jobSwitchesToSales = definePlay("signal_feeds_job_switches", {
-  name: "Signal feeds: job switches to #sales",
+  name: "Signal feeds: job switches to #gtm-engine",
   description:
-    "Each new decision-maker Cargo Signals finds at a working-list company: a job_switch_signals row, the company to the ICP gate, and a line in #sales.",
+    "Each new decision-maker Cargo Signals finds at a working-list company: a job_switch_signals row, the company to the ICP gate, and a line in #gtm-engine.",
   folder: playsFolder,
   model: newDecisionMakers,
   workflow: routeJobSwitch,

@@ -40,8 +40,8 @@ type Row = {
 // Unify Accounts only when another model (TAM_MASTER_FINAL, final_tam) holds
 // the company: an unknown visitor has no account to score.
 //
-// The lookups and `relevance` decide which visitors are posted to #visitors
-// (plays/post-relevant-visitors.ts): a company on the working list, or one
+// The lookups and `relevance` decide which visitors are posted to
+// #signups-and-relevant-visitors (plays/post-relevant-visitors.ts): a company on the working list, or one
 // that passed the ICP gate. Every other visitor stays in the model, unposted.
 export const websiteVisitors = defineModel("website_visitors", {
   name: "website visitors hydradb",
