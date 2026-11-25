@@ -8,17 +8,18 @@ import { goalCoverageUser } from "../users";
 
 // Goal coverage: a Claude Code harness agent, not a streamText agent.
 //
-// The question it answers once a week is "what does our goal need that this
-// workspace has not built?", and the answer has to be remembered: a scoring
+// Every Sunday it first puts last week's funnel (leads into lemlist, Engaged
+// replies and stages, new Prospecting deals and their value, the SOM count,
+// signups) next to the goal and its weekly targets, then answers "what does
+// our goal need that this workspace has not built?". That answer has to be remembered: a scoring
 // model suggested and declined last week must not come back next week. That
 // memory is a file in the repository, cadence/coverage/<week>.md, edited by
 // the reviewer before merging. Only an agent with a working tree can write it,
 // and only a pull request lets a human decline a suggestion in writing.
 //
-// It does not grade the work that already exists. That is weekly-planning.
-// The two run in different weeks of thought: planning asks whether the bets we
-// have are on track, coverage asks which bets the goal needs that we have not
-// placed.
+// It reports funnel numbers against the goal; it does not grade individual
+// plays or initiatives. That is weekly-planning, which runs the same Sunday
+// afternoon on the week ending that day.
 //
 // `connector` and `languageModel` are required even here. The harness does not
 // bring its own model: it runs against Cargo's LLM proxy, which bills this
@@ -28,14 +29,22 @@ import { goalCoverageUser } from "../users";
 // mistyped channel would post internal suggestions into a customer channel.
 //
 // No `capabilities`, on purpose. What is deployed (plays, agents, models,
-// connectors, folders) is read with Cargo's own CLI, which the harness already
+// connectors, folders) and last week's counts (outreach_enrollments, signups,
+// the SOM segment) are read with Cargo's own CLI, which the harness already
 // has, and only the prompt can say "read, never execute". The commands are
-// listed in `goal-coverage.prompt.ts` §2. The CLI is signed in as the
+// listed in `goal-coverage.prompt.ts` §2 and §3. The CLI is signed in as the
 // `goal_coverage` service user (`runAs`), a viewer: see `../users`.
+//
+// Attio (the Engaged list and deals) is read over Attio's REST API with the
+// workspace env var ATTIO_AUTHORIZATION, the same token crm-routing's
+// `attio_api` connector sends. The harness inherits every workspace env var,
+// so nothing is declared here (an agent's `env` rejects `workspaceEnv()` for
+// that reason). The prompt holds it to the two `/query` read endpoints. No new
+// connector, no paid action: every number is a free read.
 export const goalCoverage = defineAgent("goal_coverage", {
   name: "Goal coverage",
   description:
-    "Once a week, compares the company goal against what the workspace runs and suggests at most five pipelines it is missing, as a pull request and a Slack post.",
+    "Every Sunday, reports last week's funnel against the company goal and its weekly targets, then suggests at most three pipelines the workspace is missing, as a pull request and a Slack post.",
   color: "green",
   harness: "claudeCode",
   connector: anthropic,
@@ -51,6 +60,9 @@ export const goalCoverage = defineAgent("goal_coverage", {
     // Empty on purpose: plan/company-plan.md exists, and the file wins,
     // because it is the version a human reviews.
     COVERAGE_GOAL: "",
+    // IANA timezone that "last week" (Monday 00:00 to Monday 00:00) is cut
+    // in. Public, so a plain string. Same zone as weekly-planning.
+    COVERAGE_TIMEZONE: "America/Los_Angeles",
   },
   uses: [
     {
@@ -69,11 +81,11 @@ export const goalCoverage = defineAgent("goal_coverage", {
     {
       type: "cron",
       name: "weekly",
-      // 16:00 UTC Monday: 8am PT during PST, 9am PT during PDT. Weekly
-      // planning runs Sunday 22:00 UTC, so its pull request is a day old and
-      // the two never land in the same review.
-      cron: "0 16 * * 1",
-      text: "Run goal coverage. Follow your system prompt exactly: find the goal, read what is deployed, write this week's coverage file, open one pull request, post the suggestions.",
+      // 16:17 UTC Sunday: 8:17am PT during PST, 9:17am PT during PDT.
+      // Weekly planning runs Sunday 22:00 UTC (2pm PT), so the two never
+      // fire at the same minute and coverage's pull request is up first.
+      cron: "17 16 * * 0",
+      text: "Run goal coverage. Follow your system prompt exactly: find the goal, read last week's numbers against it, read what is deployed, write this week's coverage file, open one pull request, post the report.",
     },
   ],
   systemPrompt: goalCoveragePrompt,
