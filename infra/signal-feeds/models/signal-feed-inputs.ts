@@ -6,7 +6,8 @@ import { modelsFolder } from "../../gtm-factory/folders";
 // feed "github": value is owner/repo and kind is own or primitive. feed
 // "job_posts": one row, value "theirstack". Seeded once from settings.ts by
 // outputs/2026-11-24-seed-signal-feed-inputs; add or remove a row here to
-// change what is watched, no deploy needed.
+// change what is watched, no deploy needed. feed "tech_adoption": one row,
+// seeded by outputs/2026-11-25-seed-tech-adoption-driver.
 export const signalFeedInputs = defineModel("signal_feed_inputs", {
   name: "signal_feed_inputs",
   kind: "native",

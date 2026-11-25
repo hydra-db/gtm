@@ -171,6 +171,14 @@ const signalOf = (event: Row) => {
         date,
         quote: clip(p.detail, 300),
       };
+    case "tech_adoption_signals":
+      return {
+        type: "tech_stack",
+        summary: `Uses ${text(p.tools_matched)} (from their job posts, theirStack)`,
+        url: "",
+        date: text(p.detected_at).slice(0, 10) || date,
+        quote: text(p.first_seen) ? `First seen ${text(p.first_seen)}` : "",
+      };
     case "website_visitors":
       return {
         type: "website_visit",
