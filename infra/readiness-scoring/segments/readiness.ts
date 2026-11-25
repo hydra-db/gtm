@@ -50,3 +50,33 @@ export const warming = defineSegment("warming_accounts", {
     ],
   },
 });
+
+// SOM: the companies we expect to close in the next 3 to 6 months. Hot or
+// warm right now, and on the working list (Series B and beyond, passed account
+// scoring, not a parked public company or F500). Moves on its own every hour
+// as signals land and age.
+export const som = defineSegment("som_accounts", {
+  model: accounts,
+  filter: {
+    conjonction: "and",
+    groups: [
+      {
+        conjonction: "and",
+        conditions: [
+          {
+            kind: "string",
+            columnSlug: accounts.columns.computed__readiness_stage,
+            operator: "is",
+            values: ["ready_now", "warming"],
+          },
+          {
+            kind: "string",
+            columnSlug: accounts.columns.computed__on_working_list,
+            operator: "is",
+            values: ["yes"],
+          },
+        ],
+      },
+    ],
+  },
+});
