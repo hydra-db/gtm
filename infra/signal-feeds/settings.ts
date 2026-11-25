@@ -26,8 +26,9 @@ export const blogLookbackDays = 2;
 export const githubWindowHours = 12;
 export const maxGithubPeoplePerRepo = 15;
 // Our own repos: every new person at a real company is also posted to
-// #visitors. Resolved to its id through the Slack connector on 2026-11-24.
-export const visitorsChannelId = "C0CMJ11QKTJ";
+// #signups-and-relevant-visitors. Resolved to its id through the Slack
+// connector's listChannels autocomplete on 2026-11-25 (operator decision).
+export const visitorsChannelId = "C0AJMNLHYCW";
 // The seed for `signal_feed_inputs` (feed "github"). The model is the live
 // list: add or remove a row there to change what is watched, no deploy.
 export const watchedRepos: { repo: string; kind: "own" | "primitive" }[] = [
@@ -137,10 +138,19 @@ export const decisionMakerTitles = [
   "Head of Machine Learning",
   "Chief AI Officer",
 ];
-// #sales, where each job switch at a working-list company is posted.
-export const salesChannelId = "C0BJY52BUTZ";
+// #gtm-engine, where each job switch at a working-list company and each
+// signup who came in after our outreach is posted. Resolved to its id through
+// the Slack connector's listChannels autocomplete on 2026-11-25 (operator
+// decision). The Cargo Slack app must be a member (`/invite @Cargo`).
+export const gtmEngineChannelId = "C0CLP38UH8S";
 
-// Product signups, read from the Slack channel #signups (the product's signup
+// #signups-and-relevant-visitors, where each signup's tier verdict is posted.
+// The same channel the signup bot posts into (signupsChannelId below): the
+// read keeps only "New signup!" messages, so these verdicts never become rows.
+export const signupVerdictsChannelId = "C0AJMNLHYCW";
+
+// Product signups, read from the Slack channel #signups-and-relevant-visitors
+// (formerly #signups; the product's signup
 // bot posts one message per signup there), every 12 hours. Resolved to its id
 // through the Slack connector on 2026-11-25. The Cargo Slack app must be a
 // member of the channel to read it (`/invite @Cargo` in #signups).
@@ -154,7 +164,7 @@ export const signupsReadLimit = 200;
 export const signupsFeedCron = "23 1,13 * * *";
 // Routing (plays/signups.ts) runs 30 minutes after each read, and only on a
 // signup newer than `signupsRouteMaxAgeHours`: the 30-day backfill lands
-// every older signup in the model without posting it to #sales.
+// every older signup in the model without posting it to Slack.
 export const signupsRouteCron = "53 1,13 * * *";
 export const signupsRouteMaxAgeHours = 48;
 // Mail providers: a signup from one keeps its row, with an empty domain, so it

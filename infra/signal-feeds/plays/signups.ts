@@ -22,7 +22,8 @@ import { signupPlan } from "../scripts/signup-plan";
 import { signupsWindow } from "../scripts/signups-window";
 import {
   outreachLemlistCampaignId,
-  salesChannelId,
+  gtmEngineChannelId,
+  signupVerdictsChannelId,
   signupsChannelId,
   signupsFeedCron,
   signupsReadLimit,
@@ -121,10 +122,12 @@ export const signupsEvery12h = definePlay("signal_feeds_signups_12h", {
 //     is a lead in the outreach lemlist campaign): stopped in that campaign
 //     (lemlist has no "mark interested" action; unsubscribing the lead from
 //     the campaign is what stops its sequence), added to Attio Engaged at
-//     Replied with a note, and one line in #sales.
+//     Replied with a note, and one line in #gtm-engine.
 //   - Not contacted, with a company: tiered by the account-scoring agent,
-//     added to tam_candidates with that tier, and the verdict in #sales.
-//   - Not contacted, personal email and no company: one line in #sales.
+//     added to tam_candidates with that tier, and the verdict in
+//     #signups-and-relevant-visitors.
+//   - Not contacted, personal email and no company: one line in
+//     #signups-and-relevant-visitors.
 const routeSignup = defineWorkflow(
   "signal_feeds_route_signup",
   {
@@ -155,7 +158,8 @@ const routeSignup = defineWorkflow(
       attioApiBase,
       engagedListSlug,
       outreachLemlistCampaignId,
-      salesChannelId,
+      gtmEngineChannelId,
+      signupVerdictsChannelId,
     },
   },
   ({ input, uses, model }) => {
@@ -237,7 +241,7 @@ const routeSignup = defineWorkflow(
         company: input.company,
       });
       uses.slack.postMessage({
-        channelId: salesChannelId,
+        channelId: gtmEngineChannelId,
         format: "markdown",
         disableUnfurling: true,
         body: contactedLines.contacted,
@@ -253,7 +257,7 @@ const routeSignup = defineWorkflow(
         company: input.company,
       });
       uses.slack.postMessage({
-        channelId: salesChannelId,
+        channelId: signupVerdictsChannelId,
         format: "markdown",
         disableUnfurling: true,
         body: personalLines.personal,
@@ -295,7 +299,7 @@ const routeSignup = defineWorkflow(
       reason: judgment.answer.rationale,
     });
     uses.slack.postMessage({
-      channelId: salesChannelId,
+      channelId: signupVerdictsChannelId,
       format: "markdown",
       disableUnfurling: true,
       body: lines.verdict,
@@ -306,11 +310,11 @@ const routeSignup = defineWorkflow(
 
 // Every new signups row, once, 30 minutes after each read. Rows older than
 // signupsRouteMaxAgeHours end at the first step, so the 30-day backfill lands
-// in the model without reaching #sales.
+// in the model without reaching Slack.
 export const routeSignups = definePlay("signal_feeds_route_signups", {
   name: "Signal feeds: route new signups",
   description:
-    "Each new signup once: already contacted goes to Attio Engaged at Replied (stopped in lemlist) and #sales; otherwise the company is tiered, added to tam_candidates and the verdict posted to #sales. Never emails the signup.",
+    "Each new signup once: already contacted goes to Attio Engaged at Replied (stopped in lemlist) and #gtm-engine; otherwise the company is tiered, added to tam_candidates and the verdict posted to #signups-and-relevant-visitors. Never emails the signup.",
   folder: playsFolder,
   model: signups,
   workflow: routeSignup,

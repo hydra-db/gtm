@@ -1,6 +1,7 @@
 import { defineScript } from "@cargo-ai/cdk";
 
-// The #sales lines.
+// The Slack lines: contacted to #gtm-engine, the rest to
+// #signups-and-relevant-visitors.
 export const signupLines = defineScript(
   async ({
     name,

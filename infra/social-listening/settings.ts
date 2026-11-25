@@ -1,5 +1,6 @@
 // Decisions (2026-11-24), adapting the social-listening cookbook to HydraDB:
-//   - Weekly digest to #sales (C0BJY52BUTZ), operator decision.
+//   - Weekly digest to #growth (C0CG3H6R6KA), operator decision
+//     (2026-11-25; it was #sales).
 //   - Keywords from context/icp/hydradb.md: buyer language plus competitor
 //     and memory-layer names (models/linkedin-posts.ts).
 //   - Reuses the project's LinkedIn (tam-building-advanced), Slack and
@@ -12,5 +13,5 @@
 // enable flag and a model sync is a paid search, so "off" means: no weekly
 // schedule on linkedin_posts and no cron trigger on the listener. Set this to
 // false and the plan shows both being removed. The Cargo bot must be in
-// #sales for the post to land.
+// #growth for the post to land.
 export const weeklyDigestEnabled = true;

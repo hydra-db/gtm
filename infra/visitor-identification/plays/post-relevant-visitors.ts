@@ -5,10 +5,11 @@ import { slack } from "../../shared/connectors/slack";
 import { playsFolder } from "../folders";
 import { websiteVisitors } from "../models/companies";
 
-// #visitors, resolved to its id through the Slack connector's autocomplete
-// (listChannels) on 2026-11-24. An id, not a name: names collide. Locked here
+// #signups-and-relevant-visitors, resolved to its id through the Slack
+// connector's autocomplete (listChannels) on 2026-11-25 (operator decision;
+// it was #visitors). An id, not a name: names collide. Locked here
 // so no run can post anywhere else.
-const slackChannelId = "C0CMJ11QKTJ";
+const slackChannelId = "C0AJMNLHYCW";
 
 // One relevant visiting company: one Slack message. It says what is known, a
 // company, never a person: a visit means someone on that company's network
@@ -54,7 +55,7 @@ const postRelevantVisitor = defineWorkflow(
 // skips the rows already relevant, so only new visitors are posted.
 export const postRelevantVisitors = definePlay("post_relevant_visitors", {
   description:
-    "Posts each website-visiting company on the working list or past the ICP gate to #visitors, once.",
+    "Posts each website-visiting company on the working list or past the ICP gate to #signups-and-relevant-visitors, once.",
   folder: playsFolder,
   model: websiteVisitors,
   workflow: postRelevantVisitor,

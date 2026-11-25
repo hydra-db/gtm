@@ -6,7 +6,7 @@ type Row = { company_domain?: string | null; occurred_at?: string | null };
 
 // One row per new decision-maker who joined a working-list company
 // (models/cargo-signals.ts, copied here by plays/job-switches.ts, which also
-// posts each one to #sales). Unified as an account event on the company
+// posts each one to #gtm-engine). Unified as an account event on the company
 // domain, dated when the signal fired.
 export const jobSwitchSignals = defineModel("job_switch_signals", {
   name: "job_switch_signals",

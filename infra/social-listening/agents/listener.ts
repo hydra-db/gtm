@@ -54,11 +54,11 @@ export const listener = defineAgent("social_listener", {
     {
       ref: slack.actions.postMessage,
       config: {
-        // #sales, resolved from the Slack connector's listChannels
-        // autocomplete on 2026-11-24 (operator decision). Locked so the
+        // #growth, resolved from the Slack connector's listChannels
+        // autocomplete on 2026-11-25 (operator decision; it was #sales). Locked so the
         // digest, which names people, never lands anywhere else. The Cargo
-        // bot must be invited to #sales before the first run.
-        channelId: "C0BJY52BUTZ",
+        // bot must be invited to #growth before the first run.
+        channelId: "C0CG3H6R6KA",
         format: "markdown",
         disableUnfurling: true,
       },

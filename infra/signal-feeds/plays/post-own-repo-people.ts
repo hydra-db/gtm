@@ -7,7 +7,8 @@ import { githubSignals } from "../models/github-signals";
 import { visitorsChannelId } from "../settings";
 
 // One person at a real company who opened an issue or pull request, or started
-// or commented on a discussion, on one of our own repos: one line in #visitors.
+// or commented on a discussion, on one of our own repos: one line in
+// #signups-and-relevant-visitors.
 const postOwnRepoPerson = defineWorkflow(
   "signal_feeds_post_own_repo_person",
   {
@@ -38,9 +39,9 @@ const postOwnRepoPerson = defineWorkflow(
 // Every new github_signals row on our own repos (repo_kind own), once, hourly
 // at :52. Every row there is already a person at a real company.
 export const postOwnRepoPeople = definePlay("signal_feeds_post_own_repo_people", {
-  name: "Signal feeds: our repos' people to #visitors",
+  name: "Signal feeds: our repos' people to #signups-and-relevant-visitors",
   description:
-    "Posts each new person at a real company who opened an issue, PR or discussion on hydra-db/hydradb or hydra-db/selfgraph to #visitors, once.",
+    "Posts each new person at a real company who opened an issue, PR or discussion on hydra-db/hydradb or hydra-db/selfgraph to #signups-and-relevant-visitors, once.",
   folder: playsFolder,
   model: githubSignals,
   workflow: postOwnRepoPerson,

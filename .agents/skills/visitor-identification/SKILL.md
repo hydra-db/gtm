@@ -197,6 +197,7 @@ Adapted for HydraDB on 2026-11-24. Plan only: nothing deployed, nothing run, pla
   TAM_MASTER_FINAL (`icp_status`, `funding_stage`), final_tam and enterprise_parked by the visitor's
   website; computed `relevance` is `working_list` (qualified, B+, not parked), `icp_qualified`
   (qualified in TAM_MASTER_FINAL, or in final_tam) or `not_relevant`. Play
-  `post_relevant_visitors` posts the first two to `#visitors` (id `C0CMJ11QKTJ`, from the Slack
+  `post_relevant_visitors` posts the first two to `#signups-and-relevant-visitors` (id `C0AJMNLHYCW`, moved from
+  `#visitors` on 2026-11-25, from the Slack
   connector's `listChannels` autocomplete), once per company (`changeKinds: ["added"]`), hourly at
   :40, through the shared Slack connector. Disabled.

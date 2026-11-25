@@ -5,11 +5,13 @@ import { slack } from "../../shared/connectors/slack";
 import { playsFolder } from "../folders";
 import { accounts } from "../models/accounts";
 
-// The Slack channel every ready account is posted to: #sales, resolved to its
-// id through the Slack connector's autocomplete (listChannels) on 2026-11-24.
+// The Slack channel every ready account is posted to: #gtm-engine, resolved to
+// its id through the Slack connector's autocomplete (listChannels) on
+// 2026-11-25 (operator decision; it was #sales). The Cargo Slack app must be a
+// member of the channel.
 // An id, not a name: names collide. Locked here so no run can post anywhere
 // else.
-const slackChannelId = "C0BJY52BUTZ";
+const slackChannelId = "C0CLP38UH8S";
 
 // One working-list account that just crossed `readyThreshold`: one Slack
 // message with the score. Nothing is written to a CRM and nothing is sent to anyone at the
@@ -68,7 +70,7 @@ const routeReadyAccount = defineWorkflow(
 // rows that were ready while the play was off.
 export const routeReadyAccounts = definePlay("route_ready_accounts", {
   description:
-    "Posts each working-list account whose decaying readiness score just crossed the ready line to #sales, with the score.",
+    "Posts each working-list account whose decaying readiness score just crossed the ready line to #gtm-engine, with the score.",
   folder: playsFolder,
   model: accounts,
   workflow: routeReadyAccount,
