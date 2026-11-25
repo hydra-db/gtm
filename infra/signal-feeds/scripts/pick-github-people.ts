@@ -8,19 +8,30 @@ type Issue = {
   pull_request?: unknown;
   user?: { login?: string; type?: string };
 };
+type Login = { login?: string } | null;
+type Discussion = {
+  number?: number;
+  url?: string;
+  createdAt?: string;
+  author?: Login;
+  comments?: { nodes?: ({ author?: Login; createdAt?: string; url?: string } | null)[] };
+};
 
-// Who acted on the repo inside the window: new stargazers, then issue and
-// pull request authors. Bots are dropped, one entry per person.
+// Who acted on the repo inside the window: issue and pull request authors,
+// then discussion authors and commenters, then new stargazers. Bots are
+// dropped, one entry per person (the first action found wins).
 export const pickGithubPeople = defineScript(
   async ({
     stars,
     issues,
+    discussions,
     since,
     repo,
     maxPeople,
   }: {
     stars: unknown;
     issues: unknown;
+    discussions?: unknown;
     since: string;
     repo: string;
     maxPeople: number;
@@ -55,6 +66,50 @@ export const pickGithubPeople = defineScript(
           occurred_at: String(issue.created_at),
           key: `${repo}:${action}:${issue.number}`,
         });
+      }
+    }
+    // The GraphQL response body: data.repository.discussions.nodes. A failed
+    // call, a repo with discussions off, or an errors-only body reads as none.
+    const body = (discussions || {}) as {
+      data?: { repository?: { discussions?: { nodes?: (Discussion | null)[] } } | null };
+    };
+    const threads = body.data?.repository?.discussions?.nodes;
+    // GraphQL authors carry no type: a bot login ends in [bot] or -bot.
+    const asUser = (author?: Login) =>
+      author && author.login ? { login: author.login, type: "User" } : undefined;
+    for (const thread of Array.isArray(threads) ? threads : []) {
+      if (!thread) {
+        continue;
+      }
+      if (
+        isPerson(asUser(thread.author)) &&
+        thread.createdAt &&
+        new Date(thread.createdAt).getTime() >= from
+      ) {
+        people.push({
+          login: String(thread.author?.login),
+          action: "discussion",
+          url: String(thread.url || ""),
+          occurred_at: String(thread.createdAt),
+          key: `${repo}:discussion:${thread.number}`,
+        });
+      }
+      const comments = thread.comments?.nodes;
+      for (const comment of Array.isArray(comments) ? comments : []) {
+        if (
+          comment &&
+          isPerson(asUser(comment.author)) &&
+          comment.createdAt &&
+          new Date(comment.createdAt).getTime() >= from
+        ) {
+          people.push({
+            login: String(comment.author?.login),
+            action: "discussion_comment",
+            url: String(comment.url || thread.url || ""),
+            occurred_at: String(comment.createdAt),
+            key: `${repo}:discussion_comment:${thread.number}:${comment.author?.login}`,
+          });
+        }
       }
     }
     for (const star of Array.isArray(stars) ? (stars as Star[]) : []) {

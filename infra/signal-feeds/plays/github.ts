@@ -14,21 +14,22 @@ import { githubWindowHours, maxGithubPeoplePerRepo } from "../settings";
 
 // One run per watched repo, every 12 hours. Reads the repo's new stargazers
 // and new issue and pull request authors from the last 12 hours (GitHub REST),
-// looks each person up (Cargo's GitHub connector), and keeps only people whose
-// profile names a real company: a github_signals row and the company to the
-// ICP gate (plays/post-own-repo-people.ts posts our own repos' to #visitors).
-// Discussions are not read: GitHub serves them only over its authenticated
-// GraphQL API. Listing
-// stargazers needs an authenticated call too: until GITHUB_TOKEN is stored as
-// "Bearer <token>" that call fails and is skipped (continueOnFailure), so this
-// play reads issues and pull requests only, and our own repos' stars come from
-// plays/own-repo-stars.ts instead.
-const watchRepo = defineWorkflow(
+// and its discussion authors and commenters from the same window (GitHub
+// GraphQL, the 20 discussions most recently updated with their last 10
+// comments), looks each person up (Cargo's GitHub connector), and keeps only
+// people whose profile names a real company: a github_signals row and the
+// company to the ICP gate (plays/post-own-repo-people.ts posts our own repos'
+// to #visitors). Stargazers and discussions need an authenticated call: if
+// GITHUB_TOKEN ever stops being sent as "Bearer <token>", those calls fail and
+// are skipped (continueOnFailure) and the run reads issues and pull requests
+// only. `hours` overrides the window for a test run; the play never sets it.
+export const watchRepo = defineWorkflow(
   "signal_feeds_github_workflow",
   {
     input: z.object({
       value: z.string(),
       kind: z.string().optional(),
+      hours: z.number().optional(),
     }),
     output: z.object({ result: z.string() }),
     uses: { githubApi, github },
@@ -44,7 +45,7 @@ const watchRepo = defineWorkflow(
     },
   },
   ({ input, uses, model }) => {
-    const span = githubWindow({ repo: input.value, hours: githubWindowHours });
+    const span = githubWindow({ repo: input.value, hours: input.hours || githubWindowHours });
     // bodyFormat is required by the action but missing from its generated type.
     const repoInfo = uses.githubApi.call({
       url: span.repoUrl,
@@ -63,9 +64,16 @@ const watchRepo = defineWorkflow(
       method: "get",
       bodyFormat: "json",
     } as { url: string; method: "get" }, { retry: 3, continueOnFailure: true });
+    const discussions = uses.githubApi.call({
+      url: span.graphqlUrl,
+      method: "post",
+      bodyFormat: "json",
+      bodyJson: span.discussionsBody,
+    } as { url: string; method: "post" }, { retry: 3, continueOnFailure: true });
     const picked = pickGithubPeople({
       stars,
       issues,
+      discussions,
       since: span.since,
       repo: input.value,
       maxPeople: maxGithubPeoplePerRepo,
@@ -119,12 +127,12 @@ const watchRepo = defineWorkflow(
 
 // Every watched repo (signal_feed_inputs rows with feed "github") at 02:37 and
 // 14:37 UTC. 0 credits: GitHub's REST API and Cargo's GitHub connector are
-// free; the github_api connector's rate limit spreads one sweep over about an
-// hour and a half when GITHUB_TOKEN is not sent as a Bearer token.
+// free; the github_api connector's rate limit (50 calls an hour, spread)
+// stretches one sweep of three calls a repo over about two hours.
 export const githubEvery12h = definePlay("signal_feeds_github_12h", {
   name: "Signal feeds: GitHub repos, every 12 hours",
   description:
-    "For every watched repo: new stargazers, issue and PR authors at real companies into github_signals, and their companies to the ICP gate.",
+    "For every watched repo: new stargazers, issue and PR authors, discussion authors and commenters at real companies into github_signals, and their companies to the ICP gate.",
   folder: playsFolder,
   model: signalFeedInputs,
   workflow: watchRepo,
