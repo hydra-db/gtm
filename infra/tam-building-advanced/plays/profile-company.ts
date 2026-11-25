@@ -145,11 +145,10 @@ const profileCompany = defineWorkflow(
     if (!input.domain) {
       return { result: "unresolved" as const };
     }
-    // TODO(Clay): the operator wants Clay as the last fallback of this
-    // waterfall, after LinkedIn. Blocked until Clay is connected in Cargo:
-    // Cargo's Clay integration has no company enrichment action, only
-    // runRoutine (routineId, inputs), so it needs a Clay connector and the
-    // routineId of a Clay routine that enriches a company by domain.
+    // Clay is the last step of the description waterfall in
+    // tam-building/plays/net-new.ts (2026-11-25), not here: a profile is
+    // keyed on the LinkedIn company id, which Clay's searchCompanies does not
+    // return, so a Clay-only company cannot become a company_tam_v1 row.
     const fromDomain = uses.linkedin.enrichCompanyFromDomain({
       domain: input.domain,
     });

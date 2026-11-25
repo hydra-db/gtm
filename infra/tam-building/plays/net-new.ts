@@ -7,6 +7,7 @@ import { tamMasterFinal } from "../../gtm-factory/models/tam-master-final";
 import { aiArk } from "../../tam-building-advanced/connectors/ai-ark";
 import { linkedin } from "../../tam-building-advanced/connectors/linkedin";
 import { tamCompanies as companyTamV1 } from "../../tam-building-advanced/models/tam-companies";
+import { clay } from "../connectors/clay";
 import { companyEnrich } from "../connectors/company-enrich";
 import { playsFolder } from "../folders";
 import { tamCompanies } from "../models/tam-companies";
@@ -19,10 +20,9 @@ import { netNewAdvancedCron, netNewCron, netNewLimit } from "../settings";
 //    final_tam and tam_candidates, before anything is paid for.
 // 2. Enrichment, always a waterfall, and only when the source row is thin
 //    (no description): AI Ark (0.01 credits), then CompanyEnrich (0.25), then
-//    LinkedIn from the domain (0.5), each only when the one before returned
-//    no description. Clay was to be the last fallback; it is not wired
-//    because the workspace has no Clay connector and Cargo's Clay integration
-//    has no company enrichment action (see settings.ts).
+//    LinkedIn from the domain (0.5), then Clay (searchCompanies on the
+//    domain, billed to HydraDB's own Clay key, 0 Cargo credits), each only
+//    when the one before returned no description.
 // 3. One tam_candidates row, keyed on the bare domain like every other
 //    source, with no status, so the tiering play picks it up.
 //
@@ -39,7 +39,7 @@ const netNewCandidate = defineWorkflow(
       employee_count: z.number().optional(),
     }),
     output: z.object({ result: z.string() }),
-    uses: { aiArk, companyEnrich, linkedin },
+    uses: { aiArk, companyEnrich, linkedin, clay },
     imports: { tamMasterFinal, finalTam, tamCandidates },
   },
   ({ input, uses, model }) => {
@@ -187,8 +187,70 @@ const netNewCandidate = defineWorkflow(
       { domain: input.domain },
       { continueOnFailure: true },
     );
-    // Last step of the waterfall. With no description anywhere the company
-    // is still added: the tiering agent can search once, and a thin row is a
+    if (li.description) {
+      model.upsert({
+        modelUuid: tamCandidates.uuid,
+        matchingColumnSlug: "key",
+        matchingValue: input.domain,
+        mappings: [
+          { columnSlug: "key", value: input.domain },
+          { columnSlug: "domain", value: input.domain },
+          { columnSlug: "name", value: input.name || li.company_name },
+          {
+            columnSlug: "linkedin_url",
+            value: input.linkedin_url || li.linkedin_url,
+          },
+          { columnSlug: "source", value: "tam_building" },
+          { columnSlug: "source_detail", value: "enriched_by: linkedin" },
+          { columnSlug: "description", value: li.description },
+          { columnSlug: "employee_count_hint", value: li.employee_count },
+          { columnSlug: "added_at", value: new Date() },
+        ],
+      });
+      return { result: "added: linkedin" };
+    }
+
+    // Last step: Clay's company database, an exact match on the domain, one
+    // record. Clay gives a size band ("11-50"), not a count, so
+    // employee_count_hint keeps LinkedIn's value (live test on mem0.ai,
+    // 2026-11-25: name, LinkedIn URL and description, 0 Cargo credits).
+    const clayHits = uses.clay.searchCompanies(
+      {
+        query: `select from companies where domain = "${input.domain}"`,
+        limit: 1,
+        recordsPerRequest: 1,
+      },
+      { continueOnFailure: true },
+    );
+    if (clayHits.length > 0 && clayHits[0].description) {
+      model.upsert({
+        modelUuid: tamCandidates.uuid,
+        matchingColumnSlug: "key",
+        matchingValue: input.domain,
+        mappings: [
+          { columnSlug: "key", value: input.domain },
+          { columnSlug: "domain", value: input.domain },
+          {
+            columnSlug: "name",
+            value: input.name || li.company_name || clayHits[0].name,
+          },
+          {
+            columnSlug: "linkedin_url",
+            value:
+              input.linkedin_url || li.linkedin_url || clayHits[0].linkedin_url,
+          },
+          { columnSlug: "source", value: "tam_building" },
+          { columnSlug: "source_detail", value: "enriched_by: clay" },
+          { columnSlug: "description", value: clayHits[0].description },
+          { columnSlug: "employee_count_hint", value: li.employee_count },
+          { columnSlug: "added_at", value: new Date() },
+        ],
+      });
+      return { result: "added: clay" };
+    }
+
+    // No description anywhere: the company is still added, with what
+    // LinkedIn found. The tiering agent can search once, and a thin row is a
     // coverage gap, not a verdict.
     model.upsert({
       modelUuid: tamCandidates.uuid,
@@ -203,13 +265,13 @@ const netNewCandidate = defineWorkflow(
           value: input.linkedin_url || li.linkedin_url,
         },
         { columnSlug: "source", value: "tam_building" },
-        { columnSlug: "source_detail", value: "enriched_by: linkedin" },
+        { columnSlug: "source_detail", value: "enriched_by: none" },
         { columnSlug: "description", value: li.description },
         { columnSlug: "employee_count_hint", value: li.employee_count },
         { columnSlug: "added_at", value: new Date() },
       ],
     });
-    return { result: "added: linkedin" };
+    return { result: "added: thin" };
   },
 );
 
