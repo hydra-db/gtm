@@ -25,6 +25,10 @@ export const signals: Record<string, { weight: number; halfLifeDays: number }> =
     // or agent memory role (new-hire-detection, Sales Navigator), dated when
     // the role started.
     new_hire_signals: { weight: 7, halfLifeDays: 30 },
+    // A company that uses a tracked graph database, vector database or agent
+    // framework (theirStack technographics, weekly). Adoption moves slowly,
+    // so it fades slowly too.
+    tech_adoption_signals: { weight: 6, halfLifeDays: 45 },
     // GitHub activity on watched repos: Dayly's feed, then signal-feeds' own.
     oss_signals: { weight: 5, halfLifeDays: 14 },
     github_signals: { weight: 5, halfLifeDays: 14 },

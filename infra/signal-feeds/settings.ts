@@ -172,3 +172,43 @@ export const ignoredSignupDomains = ["hydradb.com", "hydradb.app", "fldubai.com"
 // The lemlist campaign the outreach runs through: a signup who is a lead in it
 // is stopped there, since they came in on their own.
 export const outreachLemlistCampaignId = "cam_pLeqyyA2YFqfR8Efp";
+
+// Graph and vector tool adopters, weekly, through theirStack's searchCompanies
+// (0.5 credits a company returned). Cargo Signals cannot watch these tools, so
+// this reads theirStack's technographics (tools named in a company's job posts).
+// Cap: techAdoptionLimit companies a run, so 40 x 0.5 = 20 credits a week.
+// Adoption moves slowly, so weekly is enough.
+export const techAdoptionLimit = 40;
+export const techAdoptionCron = "47 4 * * 2";
+// theirStack's slugs, checked against its catalog on 2026-11-25 (an unknown
+// slug is refused with E-033, so a typo fails loudly here instead of
+// widening the search). Not in the catalog: FalkorDB, Zep and Zilliz (Milvus
+// covers Zilliz Cloud). TigerGraph's slug is tigergraph-db.
+export const techAdoptionSlugs = [
+  // Graph databases.
+  "neo4j",
+  "memgraph",
+  "amazon-neptune",
+  "tigergraph-db",
+  "arangodb",
+  // Vector databases.
+  "pinecone",
+  "weaviate",
+  "qdrant",
+  "milvus",
+  "chroma",
+  "pgvector",
+  // Agent frameworks and memory.
+  "langchain",
+  "langgraph",
+  "llamaindex",
+  "mem0",
+];
+export const techAdoptionCountries = ["US"];
+export const techAdoptionMinEmployees = 50;
+export const techAdoptionMaxEmployees = 5000;
+// Series B or later, in theirStack's funding stage values.
+export const techAdoptionFundingStages = [
+  "series_b", "series_c", "series_d", "series_e", "series_f", "series_g",
+  "series_h", "series_i", "series_j", "late_vc", "growth_equity_vc",
+];
