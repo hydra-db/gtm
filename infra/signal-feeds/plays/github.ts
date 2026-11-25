@@ -9,20 +9,19 @@ import { signalFeedInputs } from "../models/signal-feed-inputs";
 import { githubWindow } from "../scripts/github-window";
 import { pickGithubPeople } from "../scripts/pick-github-people";
 import { resolveGithubEmployer } from "../scripts/resolve-github-employer";
-import { stargazersUrl } from "../scripts/stargazers-url";
 import { githubWindowHours, maxGithubPeoplePerRepo } from "../settings";
 
-// One run per watched repo, every 12 hours. Reads the repo's new stargazers
-// and new issue and pull request authors from the last 12 hours (GitHub REST),
+// One run per watched repo, every 12 hours. Reads the repo's new issue and
+// pull request authors from the last 12 hours (GitHub REST),
 // and its discussion authors and commenters from the same window (GitHub
 // GraphQL, the 20 discussions most recently updated with their last 10
 // comments), looks each person up (Cargo's GitHub connector), and keeps only
 // people whose profile names a real company: a github_signals row and the
 // company to the ICP gate (plays/post-own-repo-people.ts posts our own repos'
-// to #visitors). Stargazers and discussions need an authenticated call: if
-// GITHUB_TOKEN ever stops being sent as "Bearer <token>", those calls fail and
-// are skipped (continueOnFailure) and the run reads issues and pull requests
-// only. `hours` overrides the window for a test run; the play never sets it.
+// to #visitors). Stars are not read: too low-signal (operator, 2026-11-25).
+// Discussions need an authenticated call: if GITHUB_TOKEN ever stops being
+// sent as "Bearer <token>", that call fails and is skipped (continueOnFailure)
+// and the run reads issues and pull requests only. `hours` overrides the window for a test run; the play never sets it.
 export const watchRepo = defineWorkflow(
   "signal_feeds_github_workflow",
   {
@@ -39,7 +38,6 @@ export const watchRepo = defineWorkflow(
       githubWindow,
       pickGithubPeople,
       resolveGithubEmployer,
-      stargazersUrl,
       githubWindowHours,
       maxGithubPeoplePerRepo,
     },
@@ -47,18 +45,6 @@ export const watchRepo = defineWorkflow(
   ({ input, uses, model }) => {
     const span = githubWindow({ repo: input.value, hours: input.hours || githubWindowHours });
     // bodyFormat is required by the action but missing from its generated type.
-    const repoInfo = uses.githubApi.call({
-      url: span.repoUrl,
-      method: "get",
-      bodyFormat: "json",
-    } as { url: string; method: "get" }, { retry: 3, continueOnFailure: true });
-    const starsPage = stargazersUrl({ repo: input.value, repoInfo });
-    const stars = uses.githubApi.call({
-      url: starsPage.url,
-      method: "get",
-      bodyFormat: "json",
-      headers: [{ key: "Accept", value: "application/vnd.github.star+json" }],
-    } as { url: string; method: "get" }, { retry: 2, continueOnFailure: true });
     const issues = uses.githubApi.call({
       url: span.issuesUrl,
       method: "get",
@@ -71,7 +57,6 @@ export const watchRepo = defineWorkflow(
       bodyJson: span.discussionsBody,
     } as { url: string; method: "post" }, { retry: 3, continueOnFailure: true });
     const picked = pickGithubPeople({
-      stars,
       issues,
       discussions,
       since: span.since,
@@ -128,11 +113,11 @@ export const watchRepo = defineWorkflow(
 // Every watched repo (signal_feed_inputs rows with feed "github") at 02:37 and
 // 14:37 UTC. 0 credits: GitHub's REST API and Cargo's GitHub connector are
 // free; the github_api connector's rate limit (600 calls an hour, spread)
-// stretches one sweep of three calls a repo over about ten minutes.
+// spreads one sweep of two calls a repo over a few minutes.
 export const githubEvery12h = definePlay("signal_feeds_github_12h", {
   name: "Signal feeds: GitHub repos, every 12 hours",
   description:
-    "For every watched repo: new stargazers, issue and PR authors, discussion authors and commenters at real companies into github_signals, and their companies to the ICP gate.",
+    "For every watched repo: new issue and PR authors, discussion authors and commenters at real companies into github_signals, and their companies to the ICP gate.",
   folder: playsFolder,
   model: signalFeedInputs,
   workflow: watchRepo,

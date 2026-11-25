@@ -4,8 +4,8 @@ import { modelsFolder } from "../../gtm-factory/folders";
 
 type Row = { company_domain?: string | null; occurred_at?: string | null };
 
-// One row per person who starred, opened an issue or pull request, or started
-// or commented on a discussion on, a watched repo in the last window (plays/github.ts), kept only when their
+// One row per person who opened an issue or pull request, or started or
+// commented on a discussion on, a watched repo in the last window (plays/github.ts), kept only when their
 // GitHub profile names a real company (company field, work email domain, or a
 // blog on the company's domain). Replaces the Dayly feed into oss_signals.
 // Unified as an account event on the company domain, dated by the activity.
@@ -14,7 +14,7 @@ export const githubSignals = defineModel("github_signals", {
   kind: "native",
   extractSlug: "defineCustom",
   description:
-    "New stargazers, issue and pull request authors, discussion authors and commenters on watched GitHub repos, at real companies only, resolved from their GitHub profiles.",
+    "New issue and pull request authors, discussion authors and commenters on watched GitHub repos, at real companies only, resolved from their GitHub profiles.",
   config: {
     columns: [
       { slug: "key", type: "string" },
@@ -47,7 +47,7 @@ export const githubSignals = defineModel("github_signals", {
       slug: "event_at",
       type: "date",
       label: "Event at",
-      description: "When the star, issue, pull request, discussion or comment happened: the date of its Account Events row.",
+      description: "When the issue, pull request, discussion or comment happened: the date of its Account Events row.",
       expression: (record: Row) =>
         record.occurred_at ? record.occurred_at : null,
     },

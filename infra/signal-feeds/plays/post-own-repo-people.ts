@@ -6,8 +6,8 @@ import { slack } from "../../shared/connectors/slack";
 import { githubSignals } from "../models/github-signals";
 import { visitorsChannelId } from "../settings";
 
-// One person at a real company who starred, or opened an issue or pull
-// request on, one of our own repos: one line in #visitors.
+// One person at a real company who opened an issue or pull request, or started
+// or commented on a discussion, on one of our own repos: one line in #visitors.
 const postOwnRepoPerson = defineWorkflow(
   "signal_feeds_post_own_repo_person",
   {
@@ -40,7 +40,7 @@ const postOwnRepoPerson = defineWorkflow(
 export const postOwnRepoPeople = definePlay("signal_feeds_post_own_repo_people", {
   name: "Signal feeds: our repos' people to #visitors",
   description:
-    "Posts each new person at a real company who starred or opened an issue or PR on hydra-db/hydradb or hydra-db/selfgraph to #visitors, once.",
+    "Posts each new person at a real company who opened an issue, PR or discussion on hydra-db/hydradb or hydra-db/selfgraph to #visitors, once.",
   folder: playsFolder,
   model: githubSignals,
   workflow: postOwnRepoPerson,
