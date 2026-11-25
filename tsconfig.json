@@ -14,5 +14,5 @@
     "outputs/**/*.ts",
     ".cargo-ai/**/*.d.ts"
   ],
-  "exclude": ["node_modules", "infra/apps/*/**", "infra/workers/*/**"]
+  "exclude": ["node_modules", "infra/apps/*/**", "infra/workers/*/**", "infra/*/workers/*/**"]
 }
