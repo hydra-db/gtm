@@ -18,3 +18,11 @@ export const httpIngest = defineConnector("http_ingest", {
   name: "GTM factory ingest",
   config: { headers: [] },
 });
+
+// Cargo's email waterfall (22e6559a-2a70-4bef-8237-bcfb0ff9183b): verifyEmail
+// at 0.1 credits an address. find-contacts verifies each new contact's email
+// with it and writes the result to email_checks, which daily outreach reads.
+export const waterfall = defineConnector("waterfall", {
+  integration: "waterfall",
+  default: true,
+});
